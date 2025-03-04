@@ -16,6 +16,6 @@ void Player::doSomething()
 {
 }
 
-void Player::show()
+void Player::show(int xx, int yy)
 {
 }

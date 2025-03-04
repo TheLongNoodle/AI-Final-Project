@@ -10,6 +10,6 @@ class Support : public Player
 {
 public:
 	Support(double xx, double yy, int cow, int t);
-	void show();
+	void show(int xx, int yy);
 	void doSomething();
 };

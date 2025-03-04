@@ -15,8 +15,8 @@
 
 using namespace std;
 
-const int WIDTH = 700;
-const int HEIGHT = 700;
+const int WIDTH = 1200;
+const int HEIGHT = 1200;
 
 const int NUM_ROOMS = 12;
 
@@ -293,7 +293,7 @@ void display()
 		pg->show();
 	for (int i = 0; i <= 5; i++)
 	{
-		players[i]->show();
+		players[i]->show((MSZ/7)*(i+1), MSZ-2);
 	}
 	glutSwapBuffers(); // show all
 }

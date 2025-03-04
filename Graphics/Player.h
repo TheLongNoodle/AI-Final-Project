@@ -14,7 +14,7 @@ protected:
 	int cowardnessFactor;
 public:
 	Player(double xx, double yy, double a, double h, int cow, int t, State* s);
-	virtual void show();
+	virtual void show(int xx, int yy);
 	virtual void doSomething();
 	void setIsMoving(bool value) { isMoving = value; }
 	void setIsReplenishing(bool value) { isReplenishing = value; }
