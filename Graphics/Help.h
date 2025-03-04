@@ -1,14 +1,13 @@
 #pragma once
 #include "State.h"
 
-// Fire at nearby enemies
+// Help fighters in need
 
-class Fire :
-    public State
+class Help :
+	public State
 {
 public:
 	void OnEnter(Player* p);
 	void Transition(Player* p);
 	void OnExit(Player* p);
 };
-

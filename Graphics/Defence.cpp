@@ -1,5 +1,4 @@
 #include "Defence.h"
-#include "TreatmentAndReload.h"
 
 // enter current state
 void Defence::OnEnter(Player* p)

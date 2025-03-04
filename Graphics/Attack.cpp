@@ -1,6 +1,4 @@
 #include "Attack.h"
-#include "Fire.h"
-#include "Defence.h"
 
 // enter current state
 void Attack::OnEnter(Player* p)

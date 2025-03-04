@@ -31,8 +31,6 @@ bool grenadeThrown = false;
 Bullet* pb=nullptr;
 Grenade* pg = nullptr;
 
-
-
 int maze[MSZ][MSZ] = { 0 }; // WALLs
 double security_map[MSZ][MSZ] = {0}; // 
 
@@ -51,9 +49,7 @@ void RestorePath(Cell* pc)
 }
 
 // row, col are the indices of neighbor cell
-void AddNeighbor(int r, int c, Cell* pCurrent,
-	priority_queue<Cell*, vector<Cell*>, CompareCells>& pq,
-	vector <Cell>& grays,  vector <Cell> &black) // blacks shouldn't be changed
+void AddNeighbor(int r, int c, Cell* pCurrent, priority_queue<Cell*, vector<Cell*>, CompareCells>& pq, vector <Cell>& grays,  vector <Cell> &black) // blacks shouldn't be changed
 {
 	double newg,cost;
 	vector<Cell>::iterator itGray;
@@ -118,8 +114,6 @@ void AddNeighbor(int r, int c, Cell* pCurrent,
 
 
 }
-
-
 
 // run A* from room at index1 to room at index2
 void BuildPath(int index1, int index2)
@@ -218,15 +212,15 @@ void SetupDungeon()
 
 		if (i == 0) //Add team 1
 		{
-			players[0] = new Fighter(cy, cx+2, 20, 1);
-			players[1] = new Fighter(cy, cx-2, 30, 1);
-			players[2] = new Support(cy-2, cx, 50, 1);
+			players[0] = new Fighter(cx+2, cy, 20, 1);
+			players[1] = new Fighter(cx-2, cy, 30, 1);
+			players[2] = new Support(cx, cy-2, 50, 1);
 		}
 		if (i == NUM_ROOMS-1) //Add team 2
 		{
-			players[3] = new Fighter(cy, cx+2, 10, 2);
-			players[4] = new Fighter(cy, cx-2, 30, 2);
-			players[5] = new Support(cy-2, cx, 30, 2);
+			players[3] = new Fighter(cx+2, cy, 10, 2);
+			players[4] = new Fighter(cx-2, cy, 30, 2);
+			players[5] = new Support(cx, cy-2, 30, 2);
 		}
 	}
 
@@ -288,7 +282,6 @@ void GenerateSecurityMap()
 
 }
 
-
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
@@ -331,6 +324,7 @@ void menu(int choice)
 		break;
 	}
 }
+
 void mouse(int button, int state, int x, int y)
 {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
@@ -341,6 +335,7 @@ void mouse(int button, int state, int x, int y)
 		pg = new Grenade(MSZ * (HEIGHT - y) / (double)HEIGHT, MSZ * x / (double)WIDTH);
 	}
 }
+
 void main(int argc, char* argv[]) 
 {
 	glutInit(&argc, argv);

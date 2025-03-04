@@ -122,6 +122,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Attack.cpp" />
+    <ClCompile Include="Backup.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CompareCells.cpp" />
@@ -129,14 +130,16 @@
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grenade.cpp" />
+    <ClCompile Include="Help.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Restock.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Support.cpp" />
-    <ClCompile Include="TreatmentAndReload.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
+    <ClInclude Include="Backup.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CompareCells.h" />
@@ -145,15 +148,23 @@
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="Grenade.h" />
+    <ClInclude Include="Help.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Restock.h" />
     <ClInclude Include="Room.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Support.h" />
-    <ClInclude Include="TreatmentAndReload.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Graphics.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Docs\AI_project.doc" />
+    <None Include="..\Docs\Shooter.drawio" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Docs\Shooter.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

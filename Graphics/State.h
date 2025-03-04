@@ -1,5 +1,4 @@
 #pragma once
-#include "Player.h"
 
 class Player;
 // pure virtual class (interface)

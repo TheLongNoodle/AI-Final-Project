@@ -1,7 +1,7 @@
 #include "Player.h"
 #include "glut.h"
 
-Player::Player(double xx, double yy, double a, double h, int t, int cow, State* s)
+Player::Player(double xx, double yy, double a, double h, int cow, int t, State* s)
 {
 	x = xx;
 	y = yy;
