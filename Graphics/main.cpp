@@ -267,7 +267,7 @@ void ShowDungeon()
 		}
 }
 
-void GenerateSecurityMap()
+void GenerateSecurityMap(int team)
 {
 	int numSimulations = 1000;
 	int i;

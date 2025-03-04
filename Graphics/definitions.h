@@ -11,5 +11,6 @@ const double PI = 3.14;
 const double SECURITY_FACTOR = 0.001;
 
 extern int tempMaze[MSZ][MSZ];
+extern int security_map[MSZ][MSZ];
 extern int maze[MSZ][MSZ];
 extern double security_map[MSZ][MSZ];
