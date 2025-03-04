@@ -5,11 +5,13 @@ const double FSPEED = 0.01;
 const double FMAX_HEALTH = 100;
 const double FMAX_AMMO = 60;
 const double FMIN_AMMO = 0;
+const int FCOOLDOWN = 10;
 
 class Fighter : public Player
 {
 private:
 	bool needSupply = false;
+	int cooldown = FCOOLDOWN;
 public:
 	Fighter(int xx, int yy, int cow, int t);
 	bool getNeed() { return needSupply; }

@@ -1,5 +1,7 @@
 #pragma once
 #include "definitions.h"
+#include "Player.h"
+#include "PlayersDef.h"
 
 class Bullet
 {
@@ -16,6 +18,9 @@ public:
 	void show();
 	void setIsMoving(bool value) { isMoving = value; }
 	bool getIsMoving() { return isMoving; }
+	int getX() { return x; }
+	int getY() { return y; }
+	double calcDist(Player* p) { return sqrt(pow((x - p->getX()), 2) + pow((y - p->getY()), 2)); }
 	void SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ]);
 
 };

@@ -1,9 +1,6 @@
-#include <queue>
-#include "Cell.h"
-#include "CompareCells.h"
 #include "Player.h"
+#include "Grenade.h"
 #include "glut.h"
-#include "definitions.h"
 
 Player::Player(int xx, int yy, double a, double h, int cow, int t, State* s)
 {
@@ -22,21 +19,32 @@ void Player::doSomething()
 
 bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 {
-	if (tempMaze[row][col] == TARGET)
+	if ((row == targetY) && (col == targetX))
 	{
-
+		Cell* pPrev = pCurrent;
+		while (pCurrent->getParent() != nullptr)
+		{
+			pPrev = pCurrent;
+			pCurrent = pCurrent->getParent();
+		}
+		setX(pPrev->getCol());
+		setY(pPrev->getRow());
+		return true;
 	}
 	else
 	{
-
+		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1 + security_map[row][col], pCurrent);
+		pq.push(pc);
 	}
 	return false;
 }
 
 void Player::AStarTarget()
 {
-	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
-
+	// clear pq
+	while (!pq.empty())
+		pq.pop();
+	GenerateSecurityMap();
 	// setup tempMaze
 	int tempMaze[MSZ][MSZ] = { 0 };
 	int curr;
@@ -82,25 +90,37 @@ void Player::AStarTarget()
 			if (tempMaze[row + 1][col] == SPACE || tempMaze[row + 1][col] == TARGET)
 			{
 				if (checkNeighbour(row + 1, col, pCurrent))
+				{
+					runAStar = false;
 					return;
+				}
 			}
 			// go down
 			if (tempMaze[row - 1][col] == SPACE || tempMaze[row - 1][col] == TARGET)
 			{
 				if (checkNeighbour(row - 1, col, pCurrent))
+				{
+					runAStar = false;
 					return;
+				}
 			}
 			// go left
 			if (tempMaze[row][col - 1] == SPACE || tempMaze[row][col - 1] == TARGET)
 			{
 				if (checkNeighbour(row, col - 1, pCurrent))
+				{
+					runAStar = false;
 					return;
+				}
 			}
 			// go right
 			if (tempMaze[row][col + 1] == SPACE || tempMaze[row][col + 1] == TARGET)
 			{
 				if (checkNeighbour(row, col + 1, pCurrent))
+				{
+					runAStar = false;
 					return;
+				}
 			}
 		}
 	}
@@ -108,4 +128,23 @@ void Player::AStarTarget()
 
 void Player::show(int xx, int yy)
 {
+}
+
+void Player::GenerateSecurityMap()
+{
+	int numSimulations = 1000;
+
+	for (int i = 0; i < numSimulations; i++)
+	{
+		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
+		g->SimulateExplosion(maze, security_map);
+	}
+	for (Player* p : players)
+	{
+		if(p->getTeam() != team)
+			for (int i = 0; i < numSimulations; i++)
+			{
+				Grenade* g = new Grenade(p->getX(), p->getY(), 0);
+			}
+	}
 }

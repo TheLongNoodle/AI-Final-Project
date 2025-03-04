@@ -6,6 +6,8 @@
 #include <queue>
 #include "Cell.h"
 #include <iostream>
+#include<chrono>
+#include<thread>
 #include "Room.h"
 #include "Warehouse.h"
 #include "CompareCells.h"
@@ -32,8 +34,8 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
+int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
-double security_map[MSZ][MSZ] = { 0 };
 
 // TEST
 
@@ -233,7 +235,7 @@ void SetupDungeon()
 
 void init()
 {
-	glClearColor(0.5, 0.5, 0.5, 0);// color of window background
+	glClearColor(0.3, 0.3, 0.4, 0);// color of window background
 	glOrtho(0, MSZ, 0, MSZ, -1, 1); // set the coordinates system
 
 	srand(time(0));
@@ -249,12 +251,11 @@ void ShowDungeon()
 	for (i = 0; i < MSZ; i++)
 		for (j = 0; j < MSZ; j++)
 		{
-			s = security_map[i][j];
 			//1. set color of cell
 			switch (maze[i][j])
 			{
 			case SPACE:
-				glColor3d(1 - s, 1 - s, 1 - s); // gray
+				glColor3d(1, 1, 1); // gray
 				break;
 			case WALL:
 				glColor3d(0.3, 0.3, 0.4); // dark gray
@@ -262,26 +263,38 @@ void ShowDungeon()
 			}
 			// show cell
 			glBegin(GL_POLYGON);
-			glVertex2d(j, i);
-			glVertex2d(j, i + 1);
-			glVertex2d(j + 1, i + 1);
-			glVertex2d(j + 1, i);
+			glVertex2d(j - 0.5, i - 0.5);
+			glVertex2d(j - 0.5, i + 0.5);
+			glVertex2d(j + 0.5, i + 0.5);
+			glVertex2d(j + 0.5, i - 0.5);
 			glEnd();
 		}
 }
 
-void GenerateSecurityMap(int team)
+void checkVictory()
 {
-	int numSimulations = 1000;
-	int i;
-
-	for (i = 0; i < numSimulations; i++)
+	int team1 = 0;
+	int team2 = 0;
+	for (Player* p : players) //moving players
 	{
-		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
-
-		g->SimulateExplosion(maze, security_map);
+		switch (p->getTeam())
+		{
+		case 1:
+			team1++;
+			break;
+		case 2:
+			team2++;
+			break;
+		}
 	}
-
+	if (team1 == 0 && team2 == 0)
+		winCondition = 3;
+	if (team1 == 0)
+		winCondition = 2;
+	if (team2 == 0)
+		winCondition = 1;
+	if (team1 != 0 && team2 != 0)
+		winCondition = 0;
 }
 
 void display()
@@ -289,42 +302,81 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
 
 	ShowDungeon();
-	for (size_t i = 0; i < bullets.size(); ++i)
+	for (size_t i = 0; i < bullets.size(); ++i) //show bullets
 	{
 		bullets[i]->show();
 	}
-	for (size_t i = 0; i < grenades.size(); ++i)
-	{
-		grenades[i]->show();
-	}
-	for (size_t i = 0; i < players.size(); ++i)
+	for (size_t i = 0; i < players.size(); ++i) //show players
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
 	}
+<<<<<<< HEAD
 	for (size_t i = 0; i < warehouses.size(); ++i)
 	{
 		warehouses[i]->show();
+=======
+	if (winCondition != 0)
+	{
+		glColor3d(0, 0, 0);
+		glBegin(GL_POLYGON);
+		glVertex2d(MSZ / 2 + 20, MSZ / 2 - 5);
+		glVertex2d(MSZ / 2 + 20, MSZ / 2 + 5);
+		glVertex2d(MSZ / 2 - 5, MSZ / 2 + 5);
+		glVertex2d(MSZ / 2 - 5, MSZ / 2 - 5);
+		glEnd();
+		switch (winCondition) //shows if game ended
+		{
+		case 1:
+			glColor3f(1, 0, 0);
+			glRasterPos2d(MSZ / 2, MSZ / 2);
+			for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			break;
+		case 2:
+			glColor3f(0, 0, 1);
+			glRasterPos2d(MSZ / 2, MSZ / 2);
+			for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			break;
+		case 3:
+			glColor3f(0, 1, 0);
+			glRasterPos2d(MSZ / 2, MSZ / 2);
+			for (char c : "DRAW") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			break;
+		}
+>>>>>>> 0936ef8dcd1e5b7cabd81d10796bb0a3d36e3689
 	}
 	glutSwapBuffers(); // show all
 }
 
 void idle()
 {
-	for (size_t i = 0; i < bullets.size(); ++i)
+	if (winCondition == 0)
 	{
+		for (size_t i = 0; i < bullets.size(); ++i) //moving bullets
+		{
 			bullets[i]->move(maze);
+		}
+		for (auto it = players.begin(); it != players.end(); ) //moving players
+		{
+			Player* p = *it;
+			p->getCurrentState()->OnEnter(p);
+
+			if (p->getHealth() < 0) {
+				it = players.erase(it);  // Remove and get the next valid iterator
+				delete p;                // Free memory if dynamically allocated
+			}
+			else {
+				++it; // Only increment if no deletion happened
+			}
+		}
+		bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving(); }), bullets.end());
+		checkVictory();
 	}
-	for (Player* p : players)
-	{
-		p->doSomething();
-	}
-	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving();}), bullets.end());
 	glutPostRedisplay(); // indirect call to display
+	std::this_thread::sleep_for(std::chrono::milliseconds(20));
 }
 
 void menu(int choice)
 {
-
 }
 
 void mouse(int button, int state, int x, int y)
