@@ -1,7 +1,9 @@
 #pragma once
+#include <queue>
 #include "State.h"
 #include "math.h"
 #include "Cell.h"
+#include "CompareCells.h"
 
 class Player
 {
@@ -13,6 +15,7 @@ protected:
 	State* pCurrentState;
 	int team;
 	int cowardnessFactor;
+	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
 public:
 	Player(int xx, int yy, double a, double h, int cow, int t, State* s);
 	virtual void show(int xx, int yy);
@@ -28,6 +31,8 @@ public:
 	int getTargetY() { return targetY; }
 	int getX() { return x; }
 	int getY() { return y; }
+	void setX(int xx) { x = xx; }
+	void setY(int yy) { y = yy; }
 	int getTeam() { return team; }
 	int getCowardness() { return cowardnessFactor; }
 	double calcDist(Player* p) { return sqrt((x * p->getX()) + (y * p->getY())); }

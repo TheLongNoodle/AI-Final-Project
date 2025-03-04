@@ -3,6 +3,7 @@
 #include "glut.h"
 #include "GroupDef.h"
 #include <string>
+#include <iostream>
 
 Fighter::Fighter(int xx, int yy, int cow, int t) : Player(xx, yy, FMAX_AMMO, FMAX_HEALTH, cow, t, new Attack()) {}
 
@@ -65,7 +66,7 @@ void Fighter::doSomething()
 			}
 		}
 		double angle = hasClearShot(targetX, targetY);
-		if (angle != 0.0) // Shoot
+		if (angle != -1) // Shoot
 		{
 			bullets.push_back(new Bullet(x, y, angle, team));
 		}
@@ -80,7 +81,35 @@ void Fighter::doSomething()
 	}
 }
 
-double Fighter::hasClearShot(int xx, int yy) //returns the angle if player has clear shot to position, 0 otherwise (IN RADIANS)
+double Fighter::hasClearShot(int xx, int yy) //returns the angle if player has clear shot to position, -1 otherwise (IN RADIANS)
 {
-	return 0.0;
+	int x1 = x;
+	int y1 = y;
+	// Bresenham's Line Algorithm to check for walls
+	int dx = abs(xx - x1);
+	int dy = abs(yy - y1);
+	int sx = (x1 < xx) ? 1 : -1;
+	int sy = (y1 < yy) ? 1 : -1;
+	int err = dx - dy;
+
+	while (true) {
+		// If we hit a wall, return -1
+		if (maze[y1][x1] == WALL) return -1;
+
+		// If we reached the destination, break
+		if (x1 == xx && y1 == yy) break;
+
+		int e2 = 2 * err;
+		if (e2 > -dy) {
+			err -= dy;
+			x1 += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			y1 += sy;
+		}
+	}
+
+	// Calculate the angle in radians if no wall is found
+	return atan2(yy - y, xx - x);
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "CompareCells.h"
 #include "player.h"
 #include "Bullet.h"
 #include "Grenade.h"

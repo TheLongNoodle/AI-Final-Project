@@ -6,6 +6,8 @@
 #include <queue>
 #include "Cell.h"
 #include <iostream>
+#include<chrono>
+#include<thread>
 #include "Room.h"
 #include "CompareCells.h"
 #include "Bullet.h"
@@ -309,10 +311,11 @@ void idle()
 	}
 	for (Player* p : players)
 	{
-		p->doSomething();
+		p->getCurrentState()->OnEnter(p);
 	}
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving();}), bullets.end());
 	glutPostRedisplay(); // indirect call to display
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 }
 
 void menu(int choice)
