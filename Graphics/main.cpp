@@ -33,7 +33,6 @@ vector<Grenade*> grenades;
 
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
-double security_map[MSZ][MSZ] = { 0 };
 
 // TEST
 
@@ -249,12 +248,11 @@ void ShowDungeon()
 	for (i = 0; i < MSZ; i++)
 		for (j = 0; j < MSZ; j++)
 		{
-			s = security_map[i][j];
 			//1. set color of cell
 			switch (maze[i][j])
 			{
 			case SPACE:
-				glColor3d(1 - s, 1 - s, 1 - s); // gray
+				glColor3d(1, 1, 1); // gray
 				break;
 			case WALL:
 				glColor3d(0.3, 0.3, 0.4); // dark gray
@@ -268,20 +266,6 @@ void ShowDungeon()
 			glVertex2d(j + 0.5, i - 0.5);
 			glEnd();
 		}
-}
-
-void GenerateSecurityMap(int team)
-{
-	int numSimulations = 1000;
-	int i;
-
-	for (i = 0; i < numSimulations; i++)
-	{
-		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
-
-		g->SimulateExplosion(maze, security_map);
-	}
-
 }
 
 void checkVictory()
@@ -384,7 +368,6 @@ void idle()
 
 void menu(int choice)
 {
-
 }
 
 void mouse(int button, int state, int x, int y)

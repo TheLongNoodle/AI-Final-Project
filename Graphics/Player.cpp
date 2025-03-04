@@ -1,6 +1,6 @@
 #include "Player.h"
+#include "Grenade.h"
 #include "glut.h"
-#include "definitions.h"
 
 Player::Player(int xx, int yy, double a, double h, int cow, int t, State* s)
 {
@@ -33,7 +33,7 @@ bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 	}
 	else
 	{
-		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1, pCurrent);
+		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1 + security_map[row][col], pCurrent);
 		pq.push(pc);
 	}
 	return false;
@@ -44,7 +44,7 @@ void Player::AStarTarget()
 	// clear pq
 	while (!pq.empty())
 		pq.pop();
-
+	GenerateSecurityMap();
 	// setup tempMaze
 	int tempMaze[MSZ][MSZ] = { 0 };
 	int curr;
@@ -128,4 +128,23 @@ void Player::AStarTarget()
 
 void Player::show(int xx, int yy)
 {
+}
+
+void Player::GenerateSecurityMap()
+{
+	int numSimulations = 1000;
+
+	for (int i = 0; i < numSimulations; i++)
+	{
+		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
+		g->SimulateExplosion(maze, security_map);
+	}
+	for (Player* p : players)
+	{
+		if(p->getTeam() != team)
+			for (int i = 0; i < numSimulations; i++)
+			{
+				Grenade* g = new Grenade(p->getX(), p->getY(), 0);
+			}
+	}
 }
