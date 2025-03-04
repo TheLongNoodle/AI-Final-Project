@@ -3,7 +3,7 @@
 #include "glut.h"
 
 // angle is in radians
-Bullet::Bullet(double xx, double yy, double angle)
+Bullet::Bullet(double xx, double yy, double angle, int t)
 {
 	x = xx;
 	y = yy;
@@ -11,7 +11,8 @@ Bullet::Bullet(double xx, double yy, double angle)
 	dirX = cos(angle);
 	dirY = sin(angle);
 	speed = 0.3;
-	isMoving = false;
+	team = t;
+	isMoving = true;
 }
 
 void Bullet::move(int maze[MSZ][MSZ])
@@ -27,12 +28,20 @@ void Bullet::move(int maze[MSZ][MSZ])
 
 void Bullet::show()
 {
-	glColor3d(1, 0, 0);
+	switch (team)
+	{
+	case 1:
+		glColor3d(1, 0, 0);
+		break;
+	case 2:
+		glColor3d(0, 0, 1);
+		break;
+	}
 	glBegin(GL_POLYGON);
-	glVertex2d(x - 0.5, y);
-	glVertex2d(x , y+ 0.5);
-	glVertex2d(x + 0.5, y);
-	glVertex2d(x , y- 0.5);
+	glVertex2d(x - 0.1, y);
+	glVertex2d(x , y+ 0.1);
+	glVertex2d(x + 0.1, y);
+	glVertex2d(x , y- 0.1);
 	glEnd();
 }
 

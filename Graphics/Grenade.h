@@ -8,8 +8,9 @@ class Grenade
 private:
 	double row, col;
 	Bullet* bullets[NUM_BULLETS];
+	int team;
 public:
-	Grenade(double r, double c);
+	Grenade(double r, double c, int t);
 	void explode();
 	void expand(int maze[MSZ][MSZ]);
 	void show();

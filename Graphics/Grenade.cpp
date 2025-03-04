@@ -1,14 +1,15 @@
 #include "Grenade.h"
 
-Grenade::Grenade(double r, double c)
+Grenade::Grenade(double r, double c, int t)
 {
 	int i;
 	row = r;
 	col = c;
+	team = t;
 	double alpha = 2*PI/NUM_BULLETS; // bullet separation angle
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i] = new Bullet(c, r, i * alpha);
+		bullets[i] = new Bullet(c, r, i * alpha, t);
 	}
 }
 

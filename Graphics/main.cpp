@@ -25,14 +25,11 @@ const double SPACE_COST = 1;
 
 Room* rooms[NUM_ROOMS];
 Player* players[6];
-
-bool bulletFired = false;
-bool grenadeThrown = false;
-Bullet* pb=nullptr;
-Grenade* pg = nullptr;
+vector<Bullet*> bullets;
+vector<Grenade*> grenades;
 
 int maze[MSZ][MSZ] = { 0 }; // WALLs
-double security_map[MSZ][MSZ] = {0}; // 
+double security_map[MSZ][MSZ] = { 0 }; // 
 
 
 void RestorePath(Cell* pc)
@@ -49,9 +46,9 @@ void RestorePath(Cell* pc)
 }
 
 // row, col are the indices of neighbor cell
-void AddNeighbor(int r, int c, Cell* pCurrent, priority_queue<Cell*, vector<Cell*>, CompareCells>& pq, vector <Cell>& grays,  vector <Cell> &black) // blacks shouldn't be changed
+void AddNeighbor(int r, int c, Cell* pCurrent, priority_queue<Cell*, vector<Cell*>, CompareCells>& pq, vector <Cell>& grays, vector <Cell>& black) // blacks shouldn't be changed
 {
-	double newg,cost;
+	double newg, cost;
 	vector<Cell>::iterator itGray;
 	vector<Cell>::iterator itBlack;
 
@@ -87,7 +84,7 @@ void AddNeighbor(int r, int c, Cell* pCurrent, priority_queue<Cell*, vector<Cell
 
 				// and do the same with PQ
 				vector<Cell*> tmp;
-				while (!pq.empty() &&  !((*pq.top()) == (*pNeighbor)))
+				while (!pq.empty() && !((*pq.top()) == (*pNeighbor)))
 				{
 					tmp.push_back(pq.top()); // save the top element in tmp
 					pq.pop(); // remove top element from pq
@@ -125,7 +122,7 @@ void BuildPath(int index1, int index2)
 	tr = rooms[index2]->getCenterY();
 	tc = rooms[index2]->getCenterX();
 	Cell* pCurrent;
-	Cell* start = new Cell(r,c ,tr ,tc , 0, nullptr);
+	Cell* start = new Cell(r, c, tr, tc, 0, nullptr);
 	priority_queue<Cell*, vector<Cell*>, CompareCells> pq;
 	vector <Cell> grays;
 	vector <Cell> black;
@@ -134,7 +131,7 @@ void BuildPath(int index1, int index2)
 	pq.push(start);
 	grays.push_back(*start);
 	// pq shouldn't be empty because we are going to reach the target beforehand
-	while (!pq.empty()) 	
+	while (!pq.empty())
 	{
 		pCurrent = pq.top();
 		if (pCurrent->getH() < 0.001) // this is a targt cell
@@ -163,11 +160,11 @@ void BuildPath(int index1, int index2)
 			if (r + 1 < MSZ)
 				AddNeighbor(r + 1, c, pCurrent, pq, grays, black);
 			// down
-			if (r - 1 >=0)
+			if (r - 1 >= 0)
 				AddNeighbor(r - 1, c, pCurrent, pq, grays, black);
 			// left
 			if (c - 1 >= 0)
-				AddNeighbor(r , c-1, pCurrent, pq, grays, black);
+				AddNeighbor(r, c - 1, pCurrent, pq, grays, black);
 			// right
 			if (c + 1 < MSZ)
 				AddNeighbor(r, c + 1, pCurrent, pq, grays, black);
@@ -181,8 +178,8 @@ void BuildPathBetweenTheRooms()
 {
 	int i, j;
 
-	for (i = 0;i < NUM_ROOMS;i++)
-		for (j = i + 1;j < NUM_ROOMS;j++)
+	for (i = 0; i < NUM_ROOMS; i++)
+		for (j = i + 1; j < NUM_ROOMS; j++)
 		{
 			BuildPath(i, j); // A*
 			cout << "The path from " << i << " to " << j << " has been paved\n";
@@ -191,11 +188,11 @@ void BuildPathBetweenTheRooms()
 
 void SetupDungeon()
 {
-	int i,j;
+	int i, j;
 	int cx, cy, w, h;
 	bool hasOverlap;
 
-	for (i = 0;i < NUM_ROOMS;i++)
+	for (i = 0; i < NUM_ROOMS; i++)
 	{
 		do
 		{
@@ -204,27 +201,27 @@ void SetupDungeon()
 			h = 6 + rand() % (MSZ / 5);
 			cx = 2 + w / 2 + rand() % (MSZ - w - 4);
 			cy = 2 + h / 2 + rand() % (MSZ - h - 4);
-			for(j=0;j<i && !hasOverlap;j++)
+			for (j = 0; j < i && !hasOverlap; j++)
 				hasOverlap = rooms[j]->Overlap(cx, cy, w, h);
 		} while (hasOverlap); // check the validity of the room
-			
-		rooms[i] = new Room(cx, cy, w, h,maze);
+
+		rooms[i] = new Room(cx, cy, w, h, maze);
 
 		if (i == 0) //Add team 1
 		{
-			players[0] = new Fighter(cx+2, cy, 20, 1);
-			players[1] = new Fighter(cx-2, cy, 30, 1);
-			players[2] = new Support(cx, cy-2, 50, 1);
+			players[0] = new Fighter(cx + 2, cy, 20, 1);
+			players[1] = new Fighter(cx - 2, cy, 30, 1);
+			players[2] = new Support(cx, cy - 2, 50, 1);
 		}
-		if (i == NUM_ROOMS-1) //Add team 2
+		if (i == NUM_ROOMS - 1) //Add team 2
 		{
-			players[3] = new Fighter(cx+2, cy, 10, 2);
-			players[4] = new Fighter(cx-2, cy, 30, 2);
-			players[5] = new Support(cx, cy-2, 30, 2);
+			players[3] = new Fighter(cx + 2, cy, 10, 2);
+			players[4] = new Fighter(cx - 2, cy, 30, 2);
+			players[5] = new Support(cx, cy - 2, 30, 2);
 		}
 	}
 
-	for (i = 0;i < 100;i++)
+	for (i = 0; i < 100; i++)
 		maze[rand() % MSZ][rand() % MSZ] = WALL;
 	BuildPathBetweenTheRooms();
 }
@@ -244,15 +241,15 @@ void ShowDungeon()
 	int i, j;
 	double s;
 
-	for(i=0;i<MSZ;i++)
-		for (j = 0;j < MSZ;j++)
+	for (i = 0; i < MSZ; i++)
+		for (j = 0; j < MSZ; j++)
 		{
 			s = security_map[i][j];
 			//1. set color of cell
 			switch (maze[i][j])
 			{
 			case SPACE:
-				glColor3d(1-s, 1-s, 1-s); // gray
+				glColor3d(1 - s, 1 - s, 1 - s); // gray
 				break;
 			case WALL:
 				glColor3d(0.3, 0.3, 0.4); // dark gray
@@ -262,8 +259,8 @@ void ShowDungeon()
 			glBegin(GL_POLYGON);
 			glVertex2d(j, i);
 			glVertex2d(j, i + 1);
-			glVertex2d(j+1, i + 1);
-			glVertex2d(j + 1, i );
+			glVertex2d(j + 1, i + 1);
+			glVertex2d(j + 1, i);
 			glEnd();
 		}
 }
@@ -273,9 +270,9 @@ void GenerateSecurityMap()
 	int numSimulations = 1000;
 	int i;
 
-	for (i = 0;i < numSimulations;i++)
+	for (i = 0; i < numSimulations; i++)
 	{
-		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ);
+		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
 
 		g->SimulateExplosion(maze, security_map);
 	}
@@ -287,56 +284,41 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT); // clean frame buffer
 
 	ShowDungeon();
-	if (pb != nullptr)
-		pb->show();
-	if (pg != nullptr)
-		pg->show();
+	for (size_t i = 0; i < bullets.size(); ++i)
+	{
+		bullets[i]->show();
+	}
+	for (size_t i = 0; i < grenades.size(); ++i)
+	{
+		grenades[i]->show();
+	}
 	for (int i = 0; i <= 5; i++)
 	{
-		players[i]->show((MSZ/7)*(i+1), MSZ-2);
+		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
 	}
 	glutSwapBuffers(); // show all
 }
 
-void idle() 
+void idle()
 {
-	if (bulletFired)
-		pb->move(maze);
-	if (grenadeThrown)
-		pg->expand(maze);
+	for (size_t i = 0; i < bullets.size(); ++i)
+	{
+			bullets[i]->move(maze);
+	}
+	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving();}), bullets.end());
 	glutPostRedisplay(); // indirect call to display
 }
 
 void menu(int choice)
 {
-	switch (choice)
-	{
-	case 1: // fire bullet
-		bulletFired = true;
-		pb->setIsMoving(true);
-		break;
-	case 2: // throw grenade
-		grenadeThrown = true;
-		pg->explode();
-		break;
-	case 3: // security map
-		GenerateSecurityMap();
-		break;
-	}
+
 }
 
 void mouse(int button, int state, int x, int y)
 {
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-	{
-//		pb = new Bullet(MSZ*x/(double)WIDTH,
-//			MSZ* (HEIGHT - y) / (double)HEIGHT, (rand() % 360)* PI / 180);
-
-		pg = new Grenade(MSZ * (HEIGHT - y) / (double)HEIGHT, MSZ * x / (double)WIDTH);
-	}
 }
 
-void main(int argc, char* argv[]) 
+void main(int argc, char* argv[])
 {
 	glutInit(&argc, argv);
 	// definitions for visual memory (Frame buffer) and double buffer
@@ -349,14 +331,11 @@ void main(int argc, char* argv[])
 	glutDisplayFunc(display);
 	// idle is a update function
 	glutIdleFunc(idle);
-	
+
 	glutMouseFunc(mouse);
 
 	// menu
 	glutCreateMenu(menu);
-	glutAddMenuEntry("Fire bullet", 1);
-	glutAddMenuEntry("Throw Grenade", 2);
-	glutAddMenuEntry("Generate Security Map", 3);
 	glutAttachMenu(GLUT_RIGHT_BUTTON);
 
 

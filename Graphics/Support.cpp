@@ -37,6 +37,12 @@ void Support::show(int xx, int yy)
 	glRasterPos2d(xx + 1, yy - 2);
 	for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 	glColor3f(0, 0, 0);
+	glRasterPos2d(xx + 4, yy - 2);
+	for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+	glColor3f(0, 1, 0);
+	glRasterPos2d(xx + 5, yy - 2);
+	for (char c : std::to_string((int)aid)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+	glColor3f(0, 0, 0);
 	glBegin(GL_LINES);
 	glVertex2f(xx, yy - 3);
 	glVertex2f(x, y);
