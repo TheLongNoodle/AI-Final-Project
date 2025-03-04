@@ -3,7 +3,7 @@
 #include "glut.h"
 #include <string>
 
-Fighter::Fighter(double xx, double yy, int cow, int t) : Player(xx, yy, FMAX_AMMO, FMAX_HEALTH, cow, t, new Attack()) {}
+Fighter::Fighter(int xx, int yy, int cow, int t) : Player(xx, yy, FMAX_AMMO, FMAX_HEALTH, cow, t, new Attack()) {}
 
 void Fighter::show(int xx, int yy)
 {
@@ -46,5 +46,9 @@ void Fighter::show(int xx, int yy)
 
 void Fighter::doSomething()
 {
+}
 
+double Fighter::hasClearShot(int xx, int yy) //returns the angle if player has clear shot to position, 0 otherwise (IN RADIANS)
+{
+	return 0.0;
 }

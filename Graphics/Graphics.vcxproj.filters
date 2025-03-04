@@ -78,9 +78,6 @@
     <ClCompile Include="Defence.cpp">
       <Filter>Source Files\FSM\Fighter</Filter>
     </ClCompile>
-    <ClCompile Include="Fire.cpp">
-      <Filter>Source Files\FSM\Fighter</Filter>
-    </ClCompile>
     <ClCompile Include="Backup.cpp">
       <Filter>Source Files\FSM\Support</Filter>
     </ClCompile>
@@ -131,9 +128,6 @@
     <ClInclude Include="Defence.h">
       <Filter>Header Files\FSM\Fighter</Filter>
     </ClInclude>
-    <ClInclude Include="Fire.h">
-      <Filter>Header Files\FSM\Fighter</Filter>
-    </ClInclude>
     <ClInclude Include="Backup.h">
       <Filter>Header Files\FSM\Support</Filter>
     </ClInclude>
@@ -142,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="Restock.h">
       <Filter>Header Files\FSM\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="GroupDef.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

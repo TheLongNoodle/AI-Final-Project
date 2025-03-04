@@ -3,7 +3,7 @@
 #include "glut.h"
 #include <string>
 
-Support::Support(double xx, double yy, int cow, int t) : Player(xx, yy, SMAX_AMMO, SMAX_HEALTH, cow, t, new Attack()) {}
+Support::Support(int xx, int yy, int cow, int t) : Player(xx, yy, SMAX_AMMO, SMAX_HEALTH, cow, t, new Attack()) {}
 
 void Support::show(int xx, int yy)
 {

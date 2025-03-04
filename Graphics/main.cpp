@@ -12,6 +12,7 @@
 #include "Grenade.h"
 #include "Fighter.h"
 #include "Support.h"
+#include "definitions.h"
 
 using namespace std;
 
@@ -24,12 +25,12 @@ const double WALL_COST = 5;
 const double SPACE_COST = 1;
 
 Room* rooms[NUM_ROOMS];
-Player* players[6];
+vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
-int maze[MSZ][MSZ] = { 0 }; // WALLs
-double security_map[MSZ][MSZ] = { 0 }; // 
+int maze[MSZ][MSZ] = { 0 };
+double security_map[MSZ][MSZ] = { 0 };
 
 
 void RestorePath(Cell* pc)
@@ -209,15 +210,15 @@ void SetupDungeon()
 
 		if (i == 0) //Add team 1
 		{
-			players[0] = new Fighter(cx + 2, cy, 20, 1);
-			players[1] = new Fighter(cx - 2, cy, 30, 1);
-			players[2] = new Support(cx, cy - 2, 50, 1);
+			players.push_back(new Fighter(cx + 2, cy, 20, 1));
+			players.push_back(new Fighter(cx - 2, cy, 30, 1));
+			players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{
-			players[3] = new Fighter(cx + 2, cy, 10, 2);
-			players[4] = new Fighter(cx - 2, cy, 30, 2);
-			players[5] = new Support(cx, cy - 2, 30, 2);
+			players.push_back(new Fighter(cx + 2, cy, 0, 2));
+			players.push_back(new Fighter(cx - 2, cy, 40, 2));
+			players.push_back(new Support(cx, cy - 2, 30, 2));
 		}
 	}
 
@@ -292,7 +293,7 @@ void display()
 	{
 		grenades[i]->show();
 	}
-	for (int i = 0; i <= 5; i++)
+	for (size_t i = 0; i < players.size(); ++i)
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
 	}
@@ -304,6 +305,10 @@ void idle()
 	for (size_t i = 0; i < bullets.size(); ++i)
 	{
 			bullets[i]->move(maze);
+	}
+	for (Player* p : players)
+	{
+		p->doSomething();
 	}
 	bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving();}), bullets.end());
 	glutPostRedisplay(); // indirect call to display

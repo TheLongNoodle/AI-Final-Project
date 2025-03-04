@@ -8,8 +8,13 @@ const double FMIN_AMMO = 0;
 
 class Fighter : public Player
 {
+private:
+	bool needSupply = false;
 public:
-	Fighter(double xx, double yy, int cow, int t);
+	Fighter(int xx, int yy, int cow, int t);
+	bool getNeed() { return needSupply; }
+	void setNeed(bool need) { needSupply = need; }
 	void show(int xx, int yy);
 	void doSomething();
+	double hasClearShot(int xx, int yy);
 };

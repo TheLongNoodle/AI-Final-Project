@@ -12,7 +12,7 @@ class Support : public Player
 private:
 	double aid = SMAX_AID;
 public:
-	Support(double xx, double yy, int cow, int t);
+	Support(int xx, int yy, int cow, int t);
 	void show(int xx, int yy);
 	void doSomething();
 };

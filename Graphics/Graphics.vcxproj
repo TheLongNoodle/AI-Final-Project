@@ -128,7 +128,6 @@
     <ClCompile Include="CompareCells.cpp" />
     <ClCompile Include="Defence.cpp" />
     <ClCompile Include="Fighter.cpp" />
-    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="main.cpp" />
@@ -146,8 +145,8 @@
     <ClInclude Include="Defence.h" />
     <ClInclude Include="definitions.h" />
     <ClInclude Include="Fighter.h" />
-    <ClInclude Include="Fire.h" />
     <ClInclude Include="Grenade.h" />
+    <ClInclude Include="GroupDef.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
