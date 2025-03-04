@@ -13,66 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\FSM">
+      <UniqueIdentifier>{2672169d-ffa2-4496-994a-bc18f802229b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FSM">
+      <UniqueIdentifier>{bcca164b-e2ad-4731-bdc3-0ce7d7b921ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{6a173882-6074-481f-9219-e8d8592f1a50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map">
+      <UniqueIdentifier>{6993b2e7-ccfc-435c-81c1-527a70cf50bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Player">
+      <UniqueIdentifier>{3d4e63a1-d3af-4dbf-85ea-ad12ae711597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{1956d2e1-4685-4a8b-91ef-192db1849f29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Cell.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Source Files\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="Room.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Defence.cpp">
+      <Filter>Source Files\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="CompareCells.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Fire.cpp">
+      <Filter>Source Files\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="TreatmentAndReload.cpp">
+      <Filter>Source Files\FSM</Filter>
     </ClCompile>
     <ClCompile Include="Grenade.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Room.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="CompareCells.cpp">
+      <Filter>Source Files\Map</Filter>
     </ClCompile>
     <ClCompile Include="Fighter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Support.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Support.cpp">
+      <Filter>Source Files\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Cell.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Attack.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
-    <ClInclude Include="Room.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Defence.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Fire.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
-    <ClInclude Include="definitions.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
-    <ClInclude Include="CompareCells.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="TreatmentAndReload.h">
+      <Filter>Header Files\FSM</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="CompareCells.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="definitions.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
     <ClInclude Include="Grenade.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Room.h">
+      <Filter>Header Files\Map</Filter>
     </ClInclude>
     <ClInclude Include="Fighter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Support.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Support.h">
+      <Filter>Header Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

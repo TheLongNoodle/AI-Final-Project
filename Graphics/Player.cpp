@@ -1,16 +1,18 @@
 #include "Player.h"
 #include "glut.h"
 
-Player::Player(double r, double c, int cow, int t, int a)
+Player::Player(double xx, double yy, double a, double h, int t, int cow, State* s)
 {
-	row = r;
-	col = c;
-	cowardThresh = cow;
-	ammo = 0;
+	x = xx;
+	y = yy;
+	ammo = a;
+	health = h;
 	team = t;
+	cowardnessFactor = cow;
+	pCurrentState = s;
 }
 
-void Player::play()
+void Player::doSomething()
 {
 }
 

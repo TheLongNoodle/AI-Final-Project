@@ -1,15 +1,21 @@
 #pragma once
+#include "State.h"
 
 class Player
 {
 protected:
-	int row, col;
-	int health = 100;
-	int ammo;
-	int cowardThresh;
+	double x, y;
+	double ammo;
+	double health;
+	bool isMoving, isReplenishing, isFiring; //Replenishing stands for reloading and healing
+	double targetX, targetY;
+	State* pCurrentState;
 	int team;
+	int cowardnessFactor;
 public:
-	Player(double r, double c, int cow, int t, int a);
-	virtual void play();
+	Player(double xx, double yy, double a, double h, int t, int cow, State* s);
 	virtual void show();
+	virtual void doSomething();
+	double getAmmo() { return ammo; }
+	double getHealth() { return health; }
 };

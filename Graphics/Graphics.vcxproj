@@ -121,27 +121,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CompareCells.cpp" />
+    <ClCompile Include="Defence.cpp" />
     <ClCompile Include="Fighter.cpp" />
+    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="Grenade.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Support.cpp" />
+    <ClCompile Include="TreatmentAndReload.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CompareCells.h" />
+    <ClInclude Include="Defence.h" />
     <ClInclude Include="definitions.h" />
     <ClInclude Include="Fighter.h" />
+    <ClInclude Include="Fire.h" />
     <ClInclude Include="Grenade.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="Support.h" />
+    <ClInclude Include="TreatmentAndReload.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Graphics.rc" />
