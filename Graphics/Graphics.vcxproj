@@ -135,6 +135,7 @@
     <ClCompile Include="Restock.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="Support.cpp" />
+    <ClCompile Include="Warehouse.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Attack.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Support.h" />
+    <ClInclude Include="Warehouse.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Graphics.rc" />

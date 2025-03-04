@@ -7,6 +7,7 @@
 #include "Cell.h"
 #include <iostream>
 #include "Room.h"
+#include "Warehouse.h"
 #include "CompareCells.h"
 #include "Bullet.h"
 #include "Grenade.h"
@@ -20,11 +21,13 @@ const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
 const int NUM_ROOMS = 12;
+const int NUM_WAREHOUSE = 6;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
 
 Room* rooms[NUM_ROOMS];
+vector <Warehouse*> warehouses;
 vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
@@ -297,6 +300,10 @@ void display()
 	for (size_t i = 0; i < players.size(); ++i)
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
+	}
+	for (size_t i = 0; i < warehouses.size(); ++i)
+	{
+		warehouses[i]->show();
 	}
 	glutSwapBuffers(); // show all
 }
