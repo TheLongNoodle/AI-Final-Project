@@ -1,15 +1,15 @@
-#include "Defence.h"
+#include "Defense.h"
 
 // enter current state
-void Defence::OnEnter(Player* p)
+void Defense::OnEnter(Player* p)
 {
 }
 
-void Defence::Transition(Player* p)
+void Defense::Transition(Player* p)
 {
 }
 
 // exiting current state
-void Defence::OnExit(Player* p)
+void Defense::OnExit(Player* p)
 {
 }

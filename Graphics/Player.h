@@ -1,6 +1,7 @@
 #pragma once
 #include "State.h"
 #include "math.h"
+#include "Cell.h"
 
 class Player
 {

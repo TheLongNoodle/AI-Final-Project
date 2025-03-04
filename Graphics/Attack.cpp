@@ -1,5 +1,5 @@
 #include "Attack.h"
-#include "Defence.h"
+#include "Defense.h"
 #include "Groupdef.h"
 
 // enter current state
@@ -43,6 +43,13 @@ void Attack::Transition(Player* p)
 // exiting current state
 void Attack::OnExit(Player* p)
 {
-	if (p->getHealth() < p->getCowardness() || p->getAmmo() < 1)
-		p->setCurrentState(new Defence());
+	Fighter* f = dynamic_cast<Fighter*>(p);
+	if (f)
+	{
+		if (f->getHealth() < f->getCowardness() || f->getAmmo() < 1)
+		{
+			f->setCurrentState(new Defense());
+			f->setNeed(true);
+		}
+	}
 }

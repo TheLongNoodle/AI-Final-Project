@@ -142,7 +142,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cell.h" />
     <ClInclude Include="CompareCells.h" />
-    <ClInclude Include="Defence.h" />
+    <ClInclude Include="Defense.h" />
     <ClInclude Include="definitions.h" />
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Grenade.h" />

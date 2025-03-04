@@ -125,7 +125,7 @@
     <ClInclude Include="Attack.h">
       <Filter>Header Files\FSM\Fighter</Filter>
     </ClInclude>
-    <ClInclude Include="Defence.h">
+    <ClInclude Include="Defense.h">
       <Filter>Header Files\FSM\Fighter</Filter>
     </ClInclude>
     <ClInclude Include="Backup.h">

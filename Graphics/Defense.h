@@ -3,7 +3,7 @@
 
 // Move to safe space using security map
 
-class Defence :
+class Defense :
     public State
 {   
 public:
