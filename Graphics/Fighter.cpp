@@ -1,6 +1,7 @@
 #include "Fighter.h"
 #include "Attack.h"
 #include "glut.h"
+#include "PlayersDef.h"
 #include "GroupDef.h"
 #include <string>
 #include <iostream>
@@ -29,20 +30,29 @@ void Fighter::show(int xx, int yy)
 	glColor3f(0, 0, 0);
 	glRasterPos2d(xx - 3, yy);
 	for (char c : "Fighter") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 1, 0);
-	glRasterPos2d(xx - 3, yy - 2);
-	for (char c : std::to_string((int)health)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx, yy - 2);
-	for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx + 1, yy - 2);
-	for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINES);
-	glVertex2f(xx, yy - 2);
-	glVertex2f(x, y);
-	glEnd();
+	if (health > 0)
+	{
+		glColor3f(0, 1, 0);
+		glRasterPos2d(xx - 3, yy - 2);
+		for (char c : std::to_string((int)health)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glRasterPos2d(xx, yy - 2);
+		for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glRasterPos2d(xx + 1, yy - 2);
+		for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINES);
+		glVertex2f(xx, yy - 2);
+		glVertex2f(x, y);
+		glEnd();
+	}
+	else
+	{
+		glColor3f(1, 0, 0);
+		glRasterPos2d(xx, yy - 2);
+		for (char c : "DEAD") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+	}
 
 }
 
@@ -58,7 +68,7 @@ void Fighter::doSomething()
 			if (po->getTeam() != team)
 			{
 				dist = calcDist(po);
-				if (dist < closestDist)
+				if (dist <= closestDist)
 				{
 					closestDist = dist;
 					setTarget(po->getX(), po->getY());
@@ -68,12 +78,18 @@ void Fighter::doSomething()
 		double angle = hasClearShot(targetX, targetY);
 		if (angle != -1) // Shoot
 		{
-			bullets.push_back(new Bullet(x, y, angle, team));
+			if (cooldown == 0)
+			{
+				bullets.push_back(new Bullet(x, y, angle, team));
+				cooldown = FCOOLDOWN;
+			}
 		}
 		else // AStar move to closest enemy
 		{
 			AStarTarget();
 		}
+		if (cooldown > 0)
+			cooldown--;
 	}
 	else // Defence mode
 	{

@@ -1,6 +1,8 @@
 #include "Bullet.h"
 #include <math.h>
+#include <cmath>
 #include "glut.h"
+#include <iostream>
 
 // angle is in radians
 Bullet::Bullet(double xx, double yy, double angle, int t)
@@ -21,8 +23,19 @@ void Bullet::move(int maze[MSZ][MSZ])
 	{
 		x += speed * dirX;
 		y += speed * dirY;
-		if (maze[(int)y][(int)x] == WALL)
+		int x1 = round(x);
+		int y1 = round(y);
+		if (maze[y1][x1] == WALL)
 			isMoving = false;
+		for (Player* p : players)
+		{
+			if (calcDist(p) <= 0.4 && p->getTeam() != team)
+			{
+				p->setHealth(p->getHealth() - 10);
+				isMoving = false;
+				break;
+			}
+		}
 	}
 }
 
@@ -38,10 +51,10 @@ void Bullet::show()
 		break;
 	}
 	glBegin(GL_POLYGON);
-	glVertex2d(x - 0.1, y);
-	glVertex2d(x , y+ 0.1);
-	glVertex2d(x + 0.1, y);
-	glVertex2d(x , y- 0.1);
+	glVertex2d(x - 0.2, y);
+	glVertex2d(x , y+ 0.2);
+	glVertex2d(x + 0.2, y);
+	glVertex2d(x , y- 0.2);
 	glEnd();
 }
 

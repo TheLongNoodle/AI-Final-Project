@@ -149,6 +149,7 @@
     <ClInclude Include="GroupDef.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayersDef.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Restock.h" />
     <ClInclude Include="Room.h" />

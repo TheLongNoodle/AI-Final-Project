@@ -35,7 +35,7 @@ public:
 	void setY(int yy) { y = yy; }
 	int getTeam() { return team; }
 	int getCowardness() { return cowardnessFactor; }
-	double calcDist(Player* p) { return sqrt((x * p->getX()) + (y * p->getY())); }
+	double calcDist(Player* p) { return sqrt(pow((x - p->getX()), 2) + pow((y - p->getY()),2)); }
 	bool checkNeighbour(int row, int col, Cell* pCurrent);
 	void AStarTarget();
 
