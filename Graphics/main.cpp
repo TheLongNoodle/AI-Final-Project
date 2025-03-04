@@ -32,6 +32,7 @@ vector<Grenade*> grenades;
 int maze[MSZ][MSZ] = { 0 };
 double security_map[MSZ][MSZ] = { 0 };
 
+// TEST
 
 void RestorePath(Cell* pc)
 {

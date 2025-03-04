@@ -26,6 +26,10 @@ bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 	{
 
 	}
+	else
+	{
+
+	}
 }
 
 void Player::AStarTarget()
