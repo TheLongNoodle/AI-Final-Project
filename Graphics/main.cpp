@@ -310,41 +310,39 @@ void display()
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
 	}
-<<<<<<< HEAD
-	for (size_t i = 0; i < warehouses.size(); ++i)
+	for (size_t i = 0; i < warehouses.size(); ++i) //show warehouses
 	{
 		warehouses[i]->show();
-=======
-	if (winCondition != 0)
-	{
-		glColor3d(0, 0, 0);
-		glBegin(GL_POLYGON);
-		glVertex2d(MSZ / 2 + 20, MSZ / 2 - 5);
-		glVertex2d(MSZ / 2 + 20, MSZ / 2 + 5);
-		glVertex2d(MSZ / 2 - 5, MSZ / 2 + 5);
-		glVertex2d(MSZ / 2 - 5, MSZ / 2 - 5);
-		glEnd();
-		switch (winCondition) //shows if game ended
-		{
-		case 1:
-			glColor3f(1, 0, 0);
-			glRasterPos2d(MSZ / 2, MSZ / 2);
-			for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-			break;
-		case 2:
-			glColor3f(0, 0, 1);
-			glRasterPos2d(MSZ / 2, MSZ / 2);
-			for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-			break;
-		case 3:
-			glColor3f(0, 1, 0);
-			glRasterPos2d(MSZ / 2, MSZ / 2);
-			for (char c : "DRAW") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-			break;
-		}
->>>>>>> 0936ef8dcd1e5b7cabd81d10796bb0a3d36e3689
 	}
-	glutSwapBuffers(); // show all
+		if (winCondition != 0)
+		{
+			glColor3d(0, 0, 0);
+			glBegin(GL_POLYGON);
+			glVertex2d(MSZ / 2 + 20, MSZ / 2 - 5);
+			glVertex2d(MSZ / 2 + 20, MSZ / 2 + 5);
+			glVertex2d(MSZ / 2 - 5, MSZ / 2 + 5);
+			glVertex2d(MSZ / 2 - 5, MSZ / 2 - 5);
+			glEnd();
+			switch (winCondition) //shows if game ended
+			{
+			case 1:
+				glColor3f(1, 0, 0);
+				glRasterPos2d(MSZ / 2, MSZ / 2);
+				for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+				break;
+			case 2:
+				glColor3f(0, 0, 1);
+				glRasterPos2d(MSZ / 2, MSZ / 2);
+				for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+				break;
+			case 3:
+				glColor3f(0, 1, 0);
+				glRasterPos2d(MSZ / 2, MSZ / 2);
+				for (char c : "DRAW") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+				break;
+			}
+		}
+		glutSwapBuffers(); // show all
 }
 
 void idle()

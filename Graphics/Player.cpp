@@ -33,7 +33,7 @@ bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 	}
 	else
 	{
-		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1 + security_map[row][col], pCurrent);
+		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1, pCurrent);
 		pq.push(pc);
 	}
 	return false;
@@ -44,7 +44,6 @@ void Player::AStarTarget()
 	// clear pq
 	while (!pq.empty())
 		pq.pop();
-	GenerateSecurityMap();
 	// setup tempMaze
 	int tempMaze[MSZ][MSZ] = { 0 };
 	int curr;
