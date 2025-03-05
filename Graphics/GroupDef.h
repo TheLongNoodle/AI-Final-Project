@@ -7,4 +7,8 @@
 using namespace std;
 extern vector<Bullet*> bullets;
 extern vector<Grenade*> grenades;
+<<<<<<< HEAD
 extern vector <Warehouse* > warehouses;
+=======
+extern vector <Warehouse* > warehouses;
+>>>>>>> Test
