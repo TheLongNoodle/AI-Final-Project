@@ -222,12 +222,18 @@ void SetupDungeon()
 
 		if (i == 0) //Add team 1
 		{
+			maze[cx + 2][cy] = SPACE;
+			maze[cx - 2][cy] = SPACE;
+			maze[cx][cy - 2] = SPACE;
 			players.push_back(new Fighter(cx + 2, cy, 20, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
 			players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{
+			maze[cx + 2][cy] = SPACE;
+			maze[cx - 2][cy] = SPACE;
+			maze[cx][cy - 2] = SPACE;
 			players.push_back(new Fighter(cx + 2, cy, 0, 2));
 			players.push_back(new Fighter(cx - 2, cy, 40, 2));
 			players.push_back(new Support(cx, cy - 2, 30, 2));

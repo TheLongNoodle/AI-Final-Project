@@ -89,16 +89,17 @@ void Player::AStarTarget()
 		}
 		else // grays is not empty
 		{
-				pCurrent = pq.top();
-				pq.pop(); // extract the first element from grays
+			pCurrent = pq.top();
+			pq.pop(); // extract the first element from grays
 			// 1. paint pCurrent black
 			row = pCurrent->getRow();
 			col = pCurrent->getCol();
-			tempMaze[row][col] = BLACK;
+			if (tempMaze[row][col] = START)
+				tempMaze[row][col] = BLACK;
 			// 2. Check all neighbors of pCurrent
 
 			// go up
-			if (tempMaze[row + 1][col] == SPACE || tempMaze[row + 1][col] == TARGET)
+			if ((tempMaze[row + 1][col] == SPACE) || (tempMaze[row + 1][col] == TARGET))
 			{
 				pTest = checkNeighbour(row + 1, col, pCurrent);
 				if (pTest == nullptr)
@@ -110,7 +111,7 @@ void Player::AStarTarget()
 					pq.push(pTest);
 			}
 			// go down
-			if (tempMaze[row - 1][col] == SPACE || tempMaze[row - 1][col] == TARGET)
+			if ((tempMaze[row - 1][col] == SPACE) || (tempMaze[row - 1][col] == TARGET))
 			{
 				pTest = checkNeighbour(row - 1, col, pCurrent);
 				if (pTest == nullptr)
@@ -122,7 +123,7 @@ void Player::AStarTarget()
 					pq.push(pTest);
 			}
 			// go left
-			if (tempMaze[row][col - 1] == SPACE || tempMaze[row][col - 1] == TARGET)
+			if ((tempMaze[row][col - 1] == SPACE) || (tempMaze[row][col - 1] == TARGET))
 			{
 				pTest = checkNeighbour(row, col - 1, pCurrent);
 				if (pTest == nullptr)
@@ -134,7 +135,7 @@ void Player::AStarTarget()
 					pq.push(pTest);
 			}
 			// go right
-			if (tempMaze[row][col + 1] == SPACE || tempMaze[row][col + 1] == TARGET)
+			if ((tempMaze[row][col + 1] == SPACE) || (tempMaze[row][col + 1] == TARGET))
 			{
 				pTest = checkNeighbour(row, col + 1, pCurrent);
 				if (pTest == nullptr)
