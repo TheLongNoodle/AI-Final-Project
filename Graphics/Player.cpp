@@ -17,7 +17,11 @@ void Player::doSomething()
 {
 }
 
-void Player::setNeed(bool need)
+void Player::setNeed(bool flag)
+{
+}
+
+void Player::setNeedToRestock(bool flag)
 {
 }
 
@@ -42,7 +46,7 @@ bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 			sec = secMap1[row][col];
 		else
 			sec = secMap2[row][col];
-		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1, pCurrent);
+		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + sec, pCurrent);
 		pq.push(pc);
 	}
 	return false;

@@ -11,9 +11,9 @@ void Attack::OnEnter(Player* p)
 
 void Attack::Transition(Player* p)
 {
+	OnExit(p);
 	if (p->getHealth() < p->getCowardness() || p->getAmmo() < 1)
 	{
-		OnExit(p);
 		p->setCurrentState(new Defense());
 	}
 

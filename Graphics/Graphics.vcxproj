@@ -129,7 +129,6 @@
     <ClCompile Include="Defence.cpp" />
     <ClCompile Include="Fighter.cpp" />
     <ClCompile Include="Grenade.cpp" />
-    <ClCompile Include="Help.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Restock.cpp" />
@@ -148,7 +147,6 @@
     <ClInclude Include="Fighter.h" />
     <ClInclude Include="Grenade.h" />
     <ClInclude Include="GroupDef.h" />
-    <ClInclude Include="Help.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayersDef.h" />
     <ClInclude Include="resource.h" />

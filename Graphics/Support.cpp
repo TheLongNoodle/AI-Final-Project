@@ -1,7 +1,6 @@
 ﻿#include "Support.h"
 #include "Attack.h"
 #include "Restock.h"
-#include "Help.h"
 #include "Backup.h"
 #include "GroupDef.h"
 #include "glut.h"
@@ -105,7 +104,7 @@ void Support::doSomething()
 		{
 			//the following condition might need to use cowardness factor 
 			// or the boolean of the need for supply
-			if (po->getTeam() == team && (po->getAmmo() <= FMAX_AMMO*0.2 || po->getHealth() <= FMAX_HEALTH * 0.2))
+			if (po->getTeam() == team && (po->getAmmo() < 1 || po->getHealth() < po->getCowardness()))
 			{
 				dist = calcDist(po);
 				if (dist < closestDist)
@@ -118,7 +117,7 @@ void Support::doSomething()
 		}
 
 		//check if the distance between the Support player to the team player is 2 or less
-		if (dist <= 2)
+		if (dist <= 2 && p != nullptr)
 		{
 			p->setAmmo(FMAX_AMMO);
 			p->setHealth(FMAX_HEALTH);

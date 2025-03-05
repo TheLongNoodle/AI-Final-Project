@@ -224,13 +224,13 @@ void SetupDungeon()
 		{
 			players.push_back(new Fighter(cx + 2, cy, 20, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
-			//players.push_back(new Support(cx, cy - 2, 50, 1));
+			players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{
 			players.push_back(new Fighter(cx + 2, cy, 0, 2));
 			players.push_back(new Fighter(cx - 2, cy, 40, 2));
-			//players.push_back(new Support(cx, cy - 2, 30, 2));
+			players.push_back(new Support(cx, cy - 2, 30, 2));
 		}
 	}
 
@@ -418,7 +418,7 @@ void idle()
 		checkVictory();
 	}
 	glutPostRedisplay(); // indirect call to display
-	std::this_thread::sleep_for(std::chrono::milliseconds(20));
+	std::this_thread::sleep_for(std::chrono::milliseconds(150));
 }
 
 void menu(int choice)

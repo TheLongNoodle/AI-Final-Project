@@ -41,7 +41,7 @@ void Fighter::show(int xx, int yy)
 		glColor3f(0, 0, 0);
 		glRasterPos2d(xx + 1, yy - 2);
 		for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-		if (needSupply)
+		if (!needSupply)
 		{
 			glColor3f(0, 0, 0);
 			glRasterPos2d(xx, yy - 4);

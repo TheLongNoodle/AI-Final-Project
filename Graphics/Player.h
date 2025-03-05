@@ -22,7 +22,8 @@ public:
 	Player(int xx, int yy, double a, double h, int cow, int t, State* s);
 	virtual void show(int xx, int yy);
 	virtual void doSomething();
-	virtual void setNeed(bool need);
+	virtual void setNeed(bool flag);
+	virtual void setNeedToRestock(bool flag);
 	void setTarget(double x, double y) { targetX = x;  targetY = y; }
 	void setCurrentState(State* ps) { pCurrentState = ps; }
 	void setAmmo(double a) { ammo = a; }
