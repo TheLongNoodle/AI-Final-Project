@@ -11,3 +11,5 @@ const double PI = 3.14;
 const double SECURITY_FACTOR = 0.01;
 
 extern int maze[MSZ][MSZ];
+extern double secMap1[MSZ][MSZ];
+extern double secMap2[MSZ][MSZ];

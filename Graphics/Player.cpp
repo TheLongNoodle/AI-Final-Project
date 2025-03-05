@@ -17,6 +17,10 @@ void Player::doSomething()
 {
 }
 
+void Player::setNeed(bool need)
+{
+}
+
 bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 {
 	if ((row == targetY) && (col == targetX))
@@ -33,6 +37,11 @@ bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 	}
 	else
 	{
+		double sec;
+		if (team == 1)
+			sec = secMap1[row][col];
+		else
+			sec = secMap2[row][col];
 		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + 1, pCurrent);
 		pq.push(pc);
 	}
@@ -127,23 +136,4 @@ void Player::AStarTarget()
 
 void Player::show(int xx, int yy)
 {
-}
-
-void Player::GenerateSecurityMap()
-{
-	int numSimulations = 1000;
-
-	for (int i = 0; i < numSimulations; i++)
-	{
-		Grenade* g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
-		g->SimulateExplosion(maze, security_map);
-	}
-	for (Player* p : players)
-	{
-		if(p->getTeam() != team)
-			for (int i = 0; i < numSimulations; i++)
-			{
-				Grenade* g = new Grenade(p->getX(), p->getY(), 0);
-			}
-	}
 }

@@ -7,7 +7,7 @@
 #include "glut.h"
 #include <string>
 
-Support::Support(int xx, int yy, int cow, int t) : Player(xx, yy, SMAX_AMMO, SMAX_HEALTH, cow, t, new Attack()) {} // needs a redo!
+Support::Support(int xx, int yy, int cow, int t) : Player(xx, yy, SMAX_AMMO, SMAX_HEALTH, cow, t, new Backup()) {} // needs a redo!
 
 void Support::show(int xx, int yy)
 {

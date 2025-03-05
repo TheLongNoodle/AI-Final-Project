@@ -16,6 +16,8 @@
 #include "Fighter.h"
 #include "Support.h"
 #include "definitions.h"
+#include "GroupDef.h"
+#include "PlayersDef.h"
 
 using namespace std;
 
@@ -34,8 +36,12 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
+const int CTR = 100;
+int counter = CTR;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
+double secMap1[MSZ][MSZ] = { 0 };
+double secMap2[MSZ][MSZ] = { 0 };
 
 // TEST
 
@@ -218,19 +224,52 @@ void SetupDungeon()
 		{
 			players.push_back(new Fighter(cx + 2, cy, 20, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
-			players.push_back(new Support(cx, cy - 2, 50, 1));
+			//players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{
 			players.push_back(new Fighter(cx + 2, cy, 0, 2));
 			players.push_back(new Fighter(cx - 2, cy, 40, 2));
-			players.push_back(new Support(cx, cy - 2, 30, 2));
+			//players.push_back(new Support(cx, cy - 2, 30, 2));
 		}
 	}
 
 	for (i = 0; i < 100; i++)
 		maze[rand() % MSZ][rand() % MSZ] = WALL;
 	BuildPathBetweenTheRooms();
+}
+
+void GenerateSecurityMap()
+{
+	secMap1[MSZ][MSZ] = { 0 };
+	secMap2[MSZ][MSZ] = { 0 };
+	int numSimulations = 1000;
+	Grenade* g = nullptr;
+
+	for (int i = 0; i < numSimulations; i++)
+	{
+		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
+		g->SimulateExplosion(maze, secMap1);
+		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
+		g->SimulateExplosion(maze, secMap2);
+	}
+	for (Player* p : players)
+	{
+		if (p->getTeam() == 1)
+			for (int i = 0; i < numSimulations; i++)
+			{
+				g = new Grenade(p->getX(), p->getY(), 0);
+				g->SimulateExplosion(maze, secMap2);
+			}
+		else
+		{
+			for (int i = 0; i < numSimulations; i++)
+			{
+				g = new Grenade(p->getX(), p->getY(), 0);
+				g->SimulateExplosion(maze, secMap1);
+			}
+		}
+	}
 }
 
 void init()
@@ -349,6 +388,13 @@ void idle()
 {
 	if (winCondition == 0)
 	{
+		if (counter <= 0)
+		{
+			GenerateSecurityMap();
+			counter = CTR;
+		}
+		else
+			counter--;
 		for (size_t i = 0; i < bullets.size(); ++i) //moving bullets
 		{
 			bullets[i]->move(maze);
@@ -357,6 +403,7 @@ void idle()
 		{
 			Player* p = *it;
 			p->getCurrentState()->OnEnter(p);
+			p->getCurrentState()->Transition(p);
 
 			if (p->getHealth() < 0) {
 				it = players.erase(it);  // Remove and get the next valid iterator
@@ -367,6 +414,7 @@ void idle()
 			}
 		}
 		bullets.erase(std::remove_if(bullets.begin(), bullets.end(), [](Bullet* bullet) {return !bullet->getIsMoving(); }), bullets.end());
+		grenades.clear();
 		checkVictory();
 	}
 	glutPostRedisplay(); // indirect call to display

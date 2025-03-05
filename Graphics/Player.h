@@ -17,13 +17,12 @@ protected:
 	State* pCurrentState;
 	int team;
 	int cowardnessFactor;
-	double security_map[MSZ][MSZ] = { 0 };
 	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
 public:
 	Player(int xx, int yy, double a, double h, int cow, int t, State* s);
 	virtual void show(int xx, int yy);
-	void GenerateSecurityMap();
 	virtual void doSomething();
+	virtual void setNeed(bool need);
 	void setTarget(double x, double y) { targetX = x;  targetY = y; }
 	void setCurrentState(State* ps) { pCurrentState = ps; }
 	void setAmmo(double a) { ammo = a; }

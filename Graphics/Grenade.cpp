@@ -1,4 +1,5 @@
 #include "Grenade.h"
+#include "GroupDef.h"
 
 Grenade::Grenade(double r, double c, int t)
 {
@@ -9,7 +10,7 @@ Grenade::Grenade(double r, double c, int t)
 	double alpha = 2*PI/NUM_BULLETS; // bullet separation angle
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i] = new Bullet(c, r, i * alpha, t);
+		gBullets[i] = new Bullet(c, r, i * alpha, t);
 	}
 }
 
@@ -19,7 +20,7 @@ void Grenade::explode()
 
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i]->setIsMoving(true);
+		bullets.push_back(gBullets[i]);
 	}
 
 
@@ -31,7 +32,7 @@ void Grenade::expand(int maze[MSZ][MSZ])
 
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i]->move(maze);
+		gBullets[i]->move(maze);
 	}
 
 }
@@ -42,7 +43,7 @@ void Grenade::show()
 
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i]->show();
+		gBullets[i]->show();
 	}
 
 }
@@ -53,7 +54,7 @@ void Grenade::SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ])
 
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		bullets[i]->SimulateExplosion(maze,sm);
+		gBullets[i]->SimulateExplosion(maze,sm);
 	}
 
 }

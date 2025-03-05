@@ -27,15 +27,16 @@ void Bullet::move(int maze[MSZ][MSZ])
 		int y1 = round(y);
 		if (maze[y1][x1] == WALL)
 			isMoving = false;
-		for (Player* p : players)
-		{
-			if (calcDist(p) <= 0.4 && p->getTeam() != team)
+		if (team != 0)
+			for (Player* p : players)
 			{
-				p->setHealth(p->getHealth() - 10);
-				isMoving = false;
-				break;
+				if (calcDist(p) <= 0.4 && p->getTeam() != team)
+				{
+					p->setHealth(p->getHealth() - 10);
+					isMoving = false;
+					break;
+				}
 			}
-		}
 	}
 }
 
@@ -52,9 +53,9 @@ void Bullet::show()
 	}
 	glBegin(GL_POLYGON);
 	glVertex2d(x - 0.2, y);
-	glVertex2d(x , y+ 0.2);
+	glVertex2d(x, y + 0.2);
 	glVertex2d(x + 0.2, y);
-	glVertex2d(x , y- 0.2);
+	glVertex2d(x, y - 0.2);
 	glEnd();
 }
 

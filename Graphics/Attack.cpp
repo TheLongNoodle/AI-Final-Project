@@ -5,27 +5,22 @@
 // enter current state
 void Attack::OnEnter(Player* p)
 {
-	Fighter* f = dynamic_cast<Fighter*>(p);
-	if (f)
-	{
-		f->setNeed(false);
-		f->doSomething();
-	}
+	p->setNeed(false);
+	p->doSomething();
 }
 
 void Attack::Transition(Player* p)
 {
-	OnExit(p);
-	Fighter* f = dynamic_cast<Fighter*>(p);
-	if (f)
-		if (f->getHealth() < f->getCowardness() || f->getAmmo() < 1)
-			f->setCurrentState(new Defense());
+	if (p->getHealth() < p->getCowardness() || p->getAmmo() < 1)
+	{
+		OnExit(p);
+		p->setCurrentState(new Defense());
+	}
+
 }
 
 // exiting current state
 void Attack::OnExit(Player* p)
 {
-	Fighter* f = dynamic_cast<Fighter*>(p);
-	if (f)
-		f->setNeed(true);
+	p->setNeed(true);
 }
