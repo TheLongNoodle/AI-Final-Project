@@ -326,7 +326,6 @@ void display()
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
 	}
-<<<<<<< HEAD
 	if (winCondition != 0)
 	{
 		glColor3d(0, 0, 0);
@@ -354,11 +353,10 @@ void display()
 			for (char c : "DRAW") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 			break;
 		}
-=======
-	for (size_t i = 0; i < warehouses.size(); ++i)
-	{
-		warehouses[i]->show();
->>>>>>> 01c5ba9 ("Support - Backup, Help and Restock has been updated.)
+		for (size_t i = 0; i < warehouses.size(); ++i)
+		{
+			warehouses[i]->show();
+		}
 	}
 	glutSwapBuffers(); // show all
 }
