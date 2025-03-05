@@ -37,7 +37,7 @@ vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
 const int CTR = 100;
-int counter = CTR;
+int counter = 0;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
 double secMap1[MSZ][MSZ] = { 0 };
