@@ -30,26 +30,37 @@ void Support::show(int xx, int yy)
 	glColor3f(0, 0, 0);
 	glRasterPos2d(xx - 3, yy);
 	for (char c : "Support") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 1, 0);
-	glRasterPos2d(xx - 3, yy - 2);
-	for (char c : std::to_string((int)health)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx, yy - 2);
-	for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx + 1, yy - 2);
-	for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx + 4, yy - 2);
-	for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 1, 0);
-	glRasterPos2d(xx + 5, yy - 2);
-	for (char c : std::to_string((int)aid)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
-	glColor3f(0, 0, 0);
-	glBegin(GL_LINES);
-	glVertex2f(xx, yy - 3);
-	glVertex2f(x, y);
-	glEnd();
+	if (health > 0)
+	{
+		glColor3f(0, 1, 0);
+		glRasterPos2d(xx - 3, yy - 2);
+		for (char c : std::to_string((int)health)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glRasterPos2d(xx, yy - 2);
+		for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glRasterPos2d(xx + 1, yy - 2);
+		for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glRasterPos2d(xx + 4, yy - 2);
+		for (char c : "|") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 1, 0);
+		glRasterPos2d(xx + 5, yy - 2);
+		for (char c : std::to_string((int)aid)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		glColor3f(0, 0, 0);
+		glBegin(GL_LINES);
+		glVertex2f(xx, yy - 3);
+		glVertex2f(x, y);
+		glEnd();
+	}
+	
+	else
+	{
+		glColor3f(1, 0, 0);
+		glRasterPos2d(xx, yy - 2);
+		for (char c : "DEAD") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+	}
+
 }
 
 void Support::doSomething()
@@ -60,6 +71,7 @@ void Support::doSomething()
 	Player* p = nullptr;
 	if (needToRestock) // Restock mode
 	{
+		closestDist = 1000;
 		//search by A* the closest warehouse
 		//then enter it's coordinates to the target of the support player
 		for (Warehouse* ws : warehouses)
@@ -72,7 +84,7 @@ void Support::doSomething()
 			}
 		}
 		//check if the distance between the Support player to the warehouse is 2 or less
-		if (dist <= 2)
+		if (closestDist <= 2)
 		{
 			//replenishing
 			setAmmo(SMAX_AMMO);
@@ -106,21 +118,33 @@ void Support::doSomething()
 			// or the boolean of the need for supply
 			if (po->getTeam() == team && (po->getAmmo() < 1 || po->getHealth() < po->getCowardness()))
 			{
-				dist = calcDist(po);
-				if (dist < closestDist)
+				if (this != po)
 				{
-					p = po;
-					closestDist = dist;
-					setTarget(po->getX(), po->getY());
+					dist = calcDist(po);
+					if (dist < closestDist)
+					{
+						p = po;
+						closestDist = dist;
+						setTarget(po->getX(), po->getY());
+					}
 				}
 			}
 		}
 
 		//check if the distance between the Support player to the team player is 2 or less
-		if (dist <= 2 && p != nullptr)
+		if (closestDist <= 2 && p != nullptr)
 		{
-			p->setAmmo(FMAX_AMMO);
-			p->setHealth(FMAX_HEALTH);
+			if (ammo >= 100)
+			{
+				p->setAmmo(100);
+				ammo -= 100;
+			}
+			
+			if (aid >= 100)
+			{
+				p->setHealth(100);
+				aid -= 100;
+			}
 		}
 
 		//look for the closest team player (Backup)
@@ -128,14 +152,18 @@ void Support::doSomething()
 		{
 			if (po->getTeam() == team)
 			{
-				dist = calcDist(po);
-				if (dist < closestDist)
+				if (this != po)
 				{
-					closestDist = dist;
-					//in order to not get to close to the player and supply ammo 
-					// and health we subtract 2 from the coordinates
-					setTarget(po->getX() - 2, po->getY() - 2);  
+					dist = calcDist(po);
+					if (dist < closestDist)
+					{
+						closestDist = dist;
+						//in order to not get to close to the player and supply ammo 
+						// and health we subtract 2 from the coordinates
+						setTarget(po->getX(), po->getY());
+					}
 				}
+				
 			}
 		}
 

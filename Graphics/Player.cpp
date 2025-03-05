@@ -55,6 +55,8 @@ Cell* Player::checkNeighbour(int row, int col, Cell* pCurrent)
 
 void Player::AStarTarget()
 {
+	if (x == targetX && y == targetY)
+		return;
 	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
 
 	// setup tempMaze
@@ -104,6 +106,10 @@ void Player::AStarTarget()
 				pTest = checkNeighbour(row + 1, col, pCurrent);
 				if (pTest == nullptr)
 				{
+					while (!pq.empty()) {
+						delete pq.top();
+						pq.pop();
+					}
 					runAStar = false;
 					return;
 				}
@@ -116,6 +122,10 @@ void Player::AStarTarget()
 				pTest = checkNeighbour(row - 1, col, pCurrent);
 				if (pTest == nullptr)
 				{
+					while (!pq.empty()) {
+						delete pq.top();
+						pq.pop();
+					}
 					runAStar = false;
 					return;
 				}
@@ -128,6 +138,10 @@ void Player::AStarTarget()
 				pTest = checkNeighbour(row, col - 1, pCurrent);
 				if (pTest == nullptr)
 				{
+					while (!pq.empty()) {
+						delete pq.top();
+						pq.pop();
+					}
 					runAStar = false;
 					return;
 				}
@@ -140,6 +154,10 @@ void Player::AStarTarget()
 				pTest = checkNeighbour(row, col + 1, pCurrent);
 				if (pTest == nullptr)
 				{
+					while (!pq.empty()) {
+						delete pq.top();
+						pq.pop();
+					}
 					runAStar = false;
 					return;
 				}
@@ -148,6 +166,7 @@ void Player::AStarTarget()
 			}
 		}
 	}
+	delete pCurrent; // **Free memory for processed node**
 }
 
 void Player::show(int xx, int yy)

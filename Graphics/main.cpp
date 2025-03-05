@@ -374,7 +374,7 @@ void display()
 		case 2:
 			glColor3f(0, 0, 1);
 			glRasterPos2d(MSZ / 2, MSZ / 2);
-			for (char c : "TEAM 1 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			for (char c : "TEAM 2 WON!!!") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 			break;
 		case 3:
 			glColor3f(0, 1, 0);
@@ -424,7 +424,7 @@ void idle()
 		checkVictory();
 	}
 	glutPostRedisplay(); // indirect call to display
-	std::this_thread::sleep_for(std::chrono::milliseconds(150));
+	std::this_thread::sleep_for(std::chrono::milliseconds(40));
 }
 
 void menu(int choice)
