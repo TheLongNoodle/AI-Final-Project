@@ -92,7 +92,7 @@ void Fighter::doSomething()
 		{
 			if (cooldown == 0)
 			{
-				if (rand() % 10 == 1 && ammo>=5) //grenade
+				if (rand() % 100 <= 5 && ammo>=5) //grenade
 				{
 					Grenade* g = new Grenade(y, x, team);
 					g->explode();
@@ -100,8 +100,15 @@ void Fighter::doSomething()
 				}
 				else //bullet
 				{
-					bullets.push_back(new Bullet(x, y, angle, team));
-					ammo = ammo - 1;
+					if (rand() % 100 <= 60 && ammo >= 5)
+					{
+						bullets.push_back(new Bullet(x, y, angle, team));
+						ammo = ammo - 1;
+					}
+					else
+					{
+						defenseMove();
+					}
 				}
 				cooldown = FCOOLDOWN;
 			}
@@ -115,6 +122,7 @@ void Fighter::doSomething()
 	}
 	else // Defence mode
 	{
+		defenseMove();
 	}
 }
 
@@ -149,4 +157,29 @@ double Fighter::hasClearShot(int xx, int yy) //returns the angle if player has c
 
 	// Calculate the angle in radians if no wall is found
 	return atan2(yy - y, xx - x);
+}
+
+void Fighter::defenseMove()
+{
+	int minSec = 1000;
+	for (int i = -VIEWDISTANCE; i < VIEWDISTANCE; i++)
+		for (int j = -VIEWDISTANCE; j < VIEWDISTANCE; j++)
+			switch (team)
+			{
+			case 1:
+				if (secMap1[y+i][x+j] < minSec && calcPointDist(x+j, y+i) <=7 && maze[y+i][x+j] != WALL)
+				{
+					targetX = x+j;
+					targetY = y+i;
+				}
+				break;
+			case 2:
+				if (secMap2[y+i][x+j] < minSec && calcPointDist(x+j, y+i) <= 7 && maze[y + i][x + j] != WALL)
+				{
+					targetX = x+j;
+					targetY = y+i;
+				}
+				break;
+			}
+	AStarTarget();
 }

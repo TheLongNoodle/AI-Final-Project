@@ -39,6 +39,7 @@ public:
 	int getTeam() { return team; }
 	int getCowardness() { return cowardnessFactor; }
 	double calcDist(Player* p) { return sqrt(pow((x - p->getX()), 2) + pow((y - p->getY()),2)); }
+	double calcPointDist(int xx, int yy) { return sqrt(pow((x - xx), 2) + pow((y - yy), 2)); }
 	Cell* checkNeighbour(int row, int col, Cell* pCurrent);
 	void AStarTarget();
 

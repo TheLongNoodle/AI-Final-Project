@@ -36,7 +36,7 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
-const int CTR = 100;
+const int CTR = 250;
 int counter = 0;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
@@ -249,7 +249,7 @@ void GenerateSecurityMap()
 {
 	secMap1[MSZ][MSZ] = { 0 };
 	secMap2[MSZ][MSZ] = { 0 };
-	int numSimulations = 1000;
+	int numSimulations = 10000;
 	Grenade* g = nullptr;
 
 	for (int i = 0; i < numSimulations; i++)
@@ -272,6 +272,23 @@ void GenerateSecurityMap()
 			for (int i = 0; i < numSimulations; i++)
 			{
 				g = new Grenade(p->getX(), p->getY(), 0);
+				g->SimulateExplosion(maze, secMap1);
+			}
+		}
+	}
+	for (Bullet* b : bullets)
+	{
+		if (b->getTeam() == 1)
+			for (int i = 0; i < numSimulations; i++)
+			{
+				g = new Grenade(b->getX(), b->getY(), 0);
+				g->SimulateExplosion(maze, secMap2);
+			}
+		else
+		{
+			for (int i = 0; i < numSimulations; i++)
+			{
+				g = new Grenade(b->getX(), b->getY(), 0);
 				g->SimulateExplosion(maze, secMap1);
 			}
 		}

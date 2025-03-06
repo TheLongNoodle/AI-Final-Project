@@ -19,4 +19,5 @@ public:
 	void show(int xx, int yy);
 	void doSomething();
 	double hasClearShot(int xx, int yy);
+	void defenseMove();
 };
