@@ -12,7 +12,8 @@ void Backup::OnEnter(Player* p)
 void Backup::Transition(Player* p)
 {
 	OnExit(p);
-	if (p->getAmmo() <= SMAX_AMMO * 0.2 || p->getHealth() <= SMAX_HEALTH * 0.2)
+	Support* s = static_cast<Support*>(p);
+	if (s->getAmmo() <= SMAX_AMMO * 0.2 || s->getAid() <= SMAX_AID * 0.2)
 	{
 		p->setCurrentState(new Restock());
 	}

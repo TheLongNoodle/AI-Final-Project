@@ -5,7 +5,7 @@
 
 const double SSPEED = 0.0001;
 const double SMAX_HEALTH = 100;
-const double SMAX_AID = 500;
+const double SMAX_AID = 200;
 const double SMAX_AMMO = 200;
 const double SMIN_AMMO = 0;
 

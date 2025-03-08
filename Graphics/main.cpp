@@ -24,8 +24,8 @@ using namespace std;
 const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
-const int NUM_ROOMS = 12;
-const int NUM_WAREHOUSE = 6;
+const int NUM_ROOMS = 4;
+const int NUM_WAREHOUSE = 4;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
@@ -238,6 +238,8 @@ void SetupDungeon()
 			players.push_back(new Fighter(cx - 2, cy, 40, 2));
 			players.push_back(new Support(cx, cy - 2, 30, 2));
 		}
+		//Add warehouse in each room
+		warehouses.push_back(new Warehouse(cx, cy));
 	}
 
 	for (i = 0; i < 100; i++)
@@ -371,6 +373,10 @@ void display()
 	for (size_t i = 0; i < players.size(); ++i) //show players
 	{
 		players[i]->show((MSZ / 7) * (i + 1), MSZ - 2);
+	}
+	for (size_t i = 0; i < warehouses.size(); ++i) //show players
+	{
+		warehouses[i]->show();
 	}
 	if (winCondition != 0)
 	{

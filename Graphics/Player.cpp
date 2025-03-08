@@ -27,6 +27,7 @@ void Player::setNeedToRestock(bool flag)
 {
 }
 
+
 Cell* Player::checkNeighbour(int row, int col, Cell* pCurrent)
 {
 	if ((row == targetY) && (col == targetX))

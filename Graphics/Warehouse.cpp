@@ -9,9 +9,11 @@ Warehouse::Warehouse(double xx, double yy)
 
 void Warehouse::show()
 {
-	glColor3d(0, 0, 0);
-	glPointSize(1.0); // point size
-	glBegin(GL_POINTS);
-	glVertex2d(x, y);
+	glColor3d(1.0, 0.0, 1.0); // Bright magenta (bold color)
+	glBegin(GL_POLYGON);
+	glVertex2d(x - 0.5, y);
+	glVertex2d(x, y + 0.5);
+	glVertex2d(x + 0.5, y);
+	glVertex2d(x, y - 0.5);
 	glEnd();
 }
