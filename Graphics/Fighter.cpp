@@ -14,9 +14,13 @@ void Fighter::show(int xx, int yy)
 	{
 	case 1:
 		glColor3d(0.8, 0, 0);
+		glRasterPos2d(xx - 3, yy);
+		for (char c : "Fighter") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		break;
 	case 2:
 		glColor3d(0, 0, 0.8);
+		glRasterPos2d(xx - 3, yy);
+		for (char c : "Fighter") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		break;
 	}
 	glBegin(GL_POLYGON);
@@ -27,9 +31,7 @@ void Fighter::show(int xx, int yy)
 	glEnd();
 
 	// Draw HUD
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx - 3, yy);
-	for (char c : "Fighter") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+	
 	if (health > 0)
 	{
 		glColor3f(0, 1, 0);
@@ -43,7 +45,7 @@ void Fighter::show(int xx, int yy)
 		for (char c : std::to_string((int)ammo)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		if (!needSupply)
 		{
-			glColor3f(0, 0, 0);
+			glColor3f(1, 0.5, 0);
 			glRasterPos2d(xx, yy - 4);
 			for (char c : "Defense") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		}

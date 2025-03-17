@@ -24,7 +24,7 @@ using namespace std;
 const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
-const int NUM_ROOMS = 12;
+const int NUM_ROOMS = 8;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
@@ -226,7 +226,7 @@ void SetupDungeon()
 			maze[cx][cy - 2] = SPACE;
 			players.push_back(new Fighter(cx + 2, cy, 40, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
-			//players.push_back(new Support(cx, cy - 2, 50, 1));
+			players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{

@@ -14,9 +14,13 @@ void Support::show(int xx, int yy)
 	{
 	case 1:
 		glColor3d(1, 0.5, 0.5);
+		glRasterPos2d(xx - 3, yy);
+		for (char c : "Support") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		break;
 	case 2:
 		glColor3d(0.5, 0.5, 1);
+		glRasterPos2d(xx - 3, yy);
+		for (char c : "Support") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		break;
 	}
 	glBegin(GL_POLYGON);
@@ -27,9 +31,6 @@ void Support::show(int xx, int yy)
 	glEnd();
 
 	// Draw HUD
-	glColor3f(0, 0, 0);
-	glRasterPos2d(xx - 3, yy);
-	for (char c : "Support") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 	if (health > 0)
 	{
 		glColor3f(0, 1, 0);
@@ -49,7 +50,7 @@ void Support::show(int xx, int yy)
 		for (char c : std::to_string((int)aid)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		if (!needToRestock)
 		{
-			glColor3f(0, 0, 0);
+			glColor3f(1, 0.5, 0);
 			glRasterPos2d(xx, yy - 4);
 			for (char c : "Restocking") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		}
@@ -81,119 +82,13 @@ void Support::doSomething()
 	double closestDist = 1000;
 	int help_fl = 0;
 	Player* p = nullptr;
-	/*
-	if (needToRestock) // Restock mode
-	{
-		closestDist = 1000;
-		//search by A* the closest warehouse
-		//then enter it's coordinates to the target of the support player
-		for (Warehouse* ws : warehouses)
-		{
-			dist = calcDistToWarehouse(this->getX(), this->getY(), ws);
-			if (dist < closestDist)
-			{
-				closestDist = dist;
-				setTarget(ws->getX(), ws->getY());
-			}
-		}
-		//check if the distance between the Support player to the warehouse is 2 or less
-		if (closestDist <= 2)
-		{
-			//replenishing
-			setAmmo(SMAX_AMMO);
-			setAid(SMAX_AID);
-			//go back to Backup his team
-			dist = 0;
-			closestDist = 1000;
-			for (Player* po : players)
-			{
-				if (po->getTeam() == team && this != po)
-				{
-					dist = calcDist(po);
-					if (dist < closestDist)
-					{
-						closestDist = dist;
-						setTarget(po->getX(), po->getY());
-					}
-				}
-			}
-			//needToRestock = false;
-		}
-		//one step towards the closest warehouse
-		AStarTarget();
-	}
-	else
-	{
-		//look for team players in need for help
-		for (Player* po : players)
-		{
-			//the following condition might need to use cowardness factor 
-			// or the boolean of the need for supply
-			if (po->getTeam() == team && (po->getAmmo() < 1 || po->getHealth() < po->getCowardness()))
-			{
-				if (this != po)
-				{
-					dist = calcDist(po);
-					if (dist < closestDist)
-					{
-						p = po;
-						closestDist = dist;
-						setTarget(po->getX(), po->getY());
-					}
-				}
-			}
-		}
-
-		//check if the distance between the Support player to the team player is 2 or less
-		if (closestDist <= 2 && p != nullptr)
-		{
-			if (ammo >= 100)
-			{
-				p->setAmmo(100);
-				ammo -= 100;
-			}
-			
-			if (aid >= 100)
-			{
-				p->setHealth(100);
-				aid -= 100;
-			}
-		}
-
-		//look for the closest team player
-		for (Player* po : players)
-		{
-			if (po->getTeam() == team)
-			{
-				if (this != po)
-				{
-					dist = calcDist(po);
-					if (dist < closestDist)
-					{
-						closestDist = dist;
-						//in order to not get to close to the player and supply ammo 
-						// and health we subtract 2 from the coordinates
-						setTarget(po->getX(), po->getY());
-					}
-				}
-				
-			}
-		}
-
-		//one step towards the current target
-		AStarTarget();
-	}
-	*/
-
-
+	bool player_in_need = false;
 	if (!needToRestock) // Backup mode
 	{
 		//look for team players in need for help
 		for (Player* po : players)
 		{
-			//the following condition might need to use cowardness factor 
-			// or the boolean of the need for supply
-			if (po->getTeam() == team && (po->getAmmo() <= 5 || po->getHealth() < po->getCowardness()))
+			if (po->getTeam() == team && (po->getAmmo() <= 20 || po->getHealth() <= po->getCowardness()))
 			{
 				if (this != po)
 				{
@@ -203,6 +98,7 @@ void Support::doSomething()
 						p = po;
 						closestDist = dist;
 						setTarget(po->getX(), po->getY());
+						player_in_need = true;
 					}
 				}
 			}
@@ -211,7 +107,7 @@ void Support::doSomething()
 		//check if the distance between the Support player to the team player is 2 or less
 		if (closestDist <= 2 && p != nullptr)
 		{
-			if (ammo > 0 && p->getAmmo() <= 5)
+			if (ammo > 0 && p->getAmmo() <= 20)
 			{
 				p->setAmmo(FMAX_AMMO);
 				ammo --;
@@ -224,28 +120,32 @@ void Support::doSomething()
 			}
 		}
 
-		//look for the closest team player
-		for (Player* po : players)
+		if (player_in_need)
+			AStarTarget(); //one step towards the current target
+		else
 		{
-			if (po->getTeam() == team)
+			//look for the closest team player
+			for (Player* po : players)
 			{
-				if (this != po)
+				if (po->getTeam() == team)
 				{
-					dist = calcDist(po);
-					if (dist < closestDist)
+					if (this != po)
 					{
-						closestDist = dist;
-						//in order to not get to close to the player and supply ammo 
-						// and health we subtract 2 from the coordinates
-						setTarget(po->getX(), po->getY());
+						dist = calcDist(po);
+						if (dist < closestDist)
+						{
+							closestDist = dist;
+							//in order to not get to close to the player and supply ammo 
+							// and health we subtract 2 from the coordinates
+							setTarget(po->getX(), po->getY());
+						}
 					}
+
 				}
-
 			}
+			//one step towards the current target
+			AStarTarget();
 		}
-
-		//one step towards the current target
-		AStarTarget();
 	}
 	else //Restock mode
 	{
