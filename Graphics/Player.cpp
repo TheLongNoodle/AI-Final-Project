@@ -88,7 +88,6 @@ void Player::AStarTarget()
 		if (pq.empty())
 		{
 			runAStar = false;
-			return;
 		}
 		else // grays is not empty
 		{
@@ -112,7 +111,6 @@ void Player::AStarTarget()
 						pq.pop();
 					}
 					runAStar = false;
-					return;
 				}
 				else
 					pq.push(pTest);
@@ -128,7 +126,6 @@ void Player::AStarTarget()
 						pq.pop();
 					}
 					runAStar = false;
-					return;
 				}
 				else
 					pq.push(pTest);
@@ -144,7 +141,6 @@ void Player::AStarTarget()
 						pq.pop();
 					}
 					runAStar = false;
-					return;
 				}
 				else
 					pq.push(pTest);
@@ -160,14 +156,18 @@ void Player::AStarTarget()
 						pq.pop();
 					}
 					runAStar = false;
-					return;
 				}
 				else
 					pq.push(pTest);
 			}
 		}
 	}
-	delete pCurrent; // **Free memory for processed node**
+	while (!pq.empty())
+	{
+		Cell* top = pq.top();
+		pq.pop();
+		delete top;
+	}
 }
 
 void Player::show(int xx, int yy)

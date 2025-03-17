@@ -24,8 +24,7 @@ using namespace std;
 const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
-const int NUM_ROOMS = 4;
-const int NUM_WAREHOUSE = 4;
+const int NUM_ROOMS = 6;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
@@ -225,7 +224,7 @@ void SetupDungeon()
 			maze[cx + 2][cy] = SPACE;
 			maze[cx - 2][cy] = SPACE;
 			maze[cx][cy - 2] = SPACE;
-			players.push_back(new Fighter(cx + 2, cy, 20, 1));
+			players.push_back(new Fighter(cx + 2, cy, 40, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
 			players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
@@ -234,9 +233,9 @@ void SetupDungeon()
 			maze[cx + 2][cy] = SPACE;
 			maze[cx - 2][cy] = SPACE;
 			maze[cx][cy - 2] = SPACE;
-			players.push_back(new Fighter(cx + 2, cy, 0, 2));
+			players.push_back(new Fighter(cx + 2, cy, 20, 2));
 			players.push_back(new Fighter(cx - 2, cy, 40, 2));
-			players.push_back(new Support(cx, cy - 2, 30, 2));
+			players.push_back(new Support(cx, cy - 2, 60, 2));
 		}
 		//Add warehouse in each room
 		warehouses.push_back(new Warehouse(cx, cy));
@@ -251,15 +250,17 @@ void GenerateSecurityMap()
 {
 	secMap1[MSZ][MSZ] = { 0 };
 	secMap2[MSZ][MSZ] = { 0 };
-	int numSimulations = 10000;
+	int numSimulations = 1000;
 	Grenade* g = nullptr;
 
 	for (int i = 0; i < numSimulations; i++)
 	{
 		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
 		g->SimulateExplosion(maze, secMap1);
+		free(g);
 		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
 		g->SimulateExplosion(maze, secMap2);
+		free(g);
 	}
 	for (Player* p : players)
 	{
@@ -268,6 +269,7 @@ void GenerateSecurityMap()
 			{
 				g = new Grenade(p->getX(), p->getY(), 0);
 				g->SimulateExplosion(maze, secMap2);
+				free(g);
 			}
 		else
 		{
@@ -275,6 +277,7 @@ void GenerateSecurityMap()
 			{
 				g = new Grenade(p->getX(), p->getY(), 0);
 				g->SimulateExplosion(maze, secMap1);
+				free(g);
 			}
 		}
 	}
@@ -285,6 +288,7 @@ void GenerateSecurityMap()
 			{
 				g = new Grenade(b->getX(), b->getY(), 0);
 				g->SimulateExplosion(maze, secMap2);
+				free(g);
 			}
 		else
 		{
@@ -292,6 +296,7 @@ void GenerateSecurityMap()
 			{
 				g = new Grenade(b->getX(), b->getY(), 0);
 				g->SimulateExplosion(maze, secMap1);
+				free(g);
 			}
 		}
 	}

@@ -47,6 +47,18 @@ void Support::show(int xx, int yy)
 		glColor3f(0, 1, 0);
 		glRasterPos2d(xx + 5, yy - 2);
 		for (char c : std::to_string((int)aid)) glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		if (!needToRestock)
+		{
+			glColor3f(0, 0, 0);
+			glRasterPos2d(xx, yy - 4);
+			for (char c : "Supporting") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		}
+		else
+		{
+			glColor3f(0, 0, 0);
+			glRasterPos2d(xx, yy - 4);
+			for (char c : "Restocking") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+		}
 		glColor3f(0, 0, 0);
 		glBegin(GL_LINES);
 		glVertex2f(xx, yy - 3);
@@ -199,16 +211,16 @@ void Support::doSomething()
 		//check if the distance between the Support player to the team player is 2 or less
 		if (closestDist <= 2 && p != nullptr)
 		{
-			if (ammo >= 100)
+			if (ammo > 0 && p->getAmmo() <= 5)
 			{
-				p->setAmmo(100);
-				ammo -= 100;
+				p->setAmmo(FMAX_AMMO);
+				ammo --;
 			}
 
-			if (aid >= 100)
+			if (aid > 0 && p->getHealth() <= p->getCowardness())
 			{
-				p->setHealth(100);
-				aid -= 100;
+				p->setHealth(FMAX_HEALTH);
+				aid --;
 			}
 		}
 
@@ -255,25 +267,21 @@ void Support::doSomething()
 			//replenishing
 			setAmmo(SMAX_AMMO);
 			setAid(SMAX_AID);
-			//go back to Backup his team
-			dist = 0;
-			closestDist = 1000;
-			for (Player* po : players)
+			for (auto it = warehouses.begin(); it != warehouses.end(); ) //moving players
 			{
-				if (po->getTeam() == team && this != po)
-				{
-					dist = calcDist(po);
-					if (dist < closestDist)
-					{
-						closestDist = dist;
-						setTarget(po->getX(), po->getY());
-					}
+				Warehouse* p = *it;
+				if (p->getX() == targetX && p->getY() == targetY) {
+					it = warehouses.erase(it);  // Remove and get the next valid iterator
+					delete p;                // Free memory if dynamically allocated
+				}
+				else {
+					++it; // Only increment if no deletion happened
 				}
 			}
-			//needToRestock = false;
 		}
+		else
+			AStarTarget();
 		//one step towards the closest warehouse
-		AStarTarget();
 	}
 
 }

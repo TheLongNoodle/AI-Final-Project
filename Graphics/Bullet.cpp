@@ -32,7 +32,7 @@ void Bullet::move(int maze[MSZ][MSZ])
 			{
 				if (calcDist(p) <= 0.4 && p->getTeam() != team)
 				{
-					p->setHealth(p->getHealth() - 10);
+					p->setHealth(p->getHealth() - 5);
 					isMoving = false;
 					break;
 				}
