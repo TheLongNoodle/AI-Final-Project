@@ -51,13 +51,13 @@ void Support::show(int xx, int yy)
 		{
 			glColor3f(0, 0, 0);
 			glRasterPos2d(xx, yy - 4);
-			for (char c : "Supporting") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			for (char c : "Restocking") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		}
 		else
 		{
 			glColor3f(0, 0, 0);
 			glRasterPos2d(xx, yy - 4);
-			for (char c : "Restocking") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
+			for (char c : "Helping") glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, c);
 		}
 		glColor3f(0, 0, 0);
 		glBegin(GL_LINES);
@@ -193,7 +193,7 @@ void Support::doSomething()
 		{
 			//the following condition might need to use cowardness factor 
 			// or the boolean of the need for supply
-			if (po->getTeam() == team && (po->getAmmo() < 1 || po->getHealth() < po->getCowardness()))
+			if (po->getTeam() == team && (po->getAmmo() <= 5 || po->getHealth() < po->getCowardness()))
 			{
 				if (this != po)
 				{

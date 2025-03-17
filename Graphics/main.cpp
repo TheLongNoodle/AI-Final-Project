@@ -24,7 +24,7 @@ using namespace std;
 const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
-const int NUM_ROOMS = 6;
+const int NUM_ROOMS = 12;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
@@ -35,7 +35,7 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
-const int CTR = 250;
+const int CTR = 15;
 int counter = 0;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
@@ -226,7 +226,7 @@ void SetupDungeon()
 			maze[cx][cy - 2] = SPACE;
 			players.push_back(new Fighter(cx + 2, cy, 40, 1));
 			players.push_back(new Fighter(cx - 2, cy, 30, 1));
-			players.push_back(new Support(cx, cy - 2, 50, 1));
+			//players.push_back(new Support(cx, cy - 2, 50, 1));
 		}
 		if (i == NUM_ROOMS - 1) //Add team 2
 		{
@@ -248,9 +248,7 @@ void SetupDungeon()
 
 void GenerateSecurityMap()
 {
-	secMap1[MSZ][MSZ] = { 0 };
-	secMap2[MSZ][MSZ] = { 0 };
-	int numSimulations = 1000;
+	int numSimulations = 200;
 	Grenade* g = nullptr;
 
 	for (int i = 0; i < numSimulations; i++)
@@ -267,7 +265,7 @@ void GenerateSecurityMap()
 		if (p->getTeam() == 1)
 			for (int i = 0; i < numSimulations; i++)
 			{
-				g = new Grenade(p->getX(), p->getY(), 0);
+				g = new Grenade(p->getY(), p->getX(), 0);
 				g->SimulateExplosion(maze, secMap2);
 				free(g);
 			}
@@ -275,7 +273,7 @@ void GenerateSecurityMap()
 		{
 			for (int i = 0; i < numSimulations; i++)
 			{
-				g = new Grenade(p->getX(), p->getY(), 0);
+				g = new Grenade(p->getY(), p->getX(), 0);
 				g->SimulateExplosion(maze, secMap1);
 				free(g);
 			}
@@ -286,7 +284,7 @@ void GenerateSecurityMap()
 		if (b->getTeam() == 1)
 			for (int i = 0; i < numSimulations; i++)
 			{
-				g = new Grenade(b->getX(), b->getY(), 0);
+				g = new Grenade(b->getY(), b->getX(), 0);
 				g->SimulateExplosion(maze, secMap2);
 				free(g);
 			}
@@ -294,7 +292,7 @@ void GenerateSecurityMap()
 		{
 			for (int i = 0; i < numSimulations; i++)
 			{
-				g = new Grenade(b->getX(), b->getY(), 0);
+				g = new Grenade(b->getY(), b->getX(), 0);
 				g->SimulateExplosion(maze, secMap1);
 				free(g);
 			}
@@ -324,7 +322,7 @@ void ShowDungeon()
 			switch (maze[i][j])
 			{
 			case SPACE:
-				glColor3d(1, 1, 1); // gray
+				glColor3d(1, 1, 1 ); // gray
 				break;
 			case WALL:
 				glColor3d(0.3, 0.3, 0.4); // dark gray

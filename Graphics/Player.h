@@ -17,6 +17,7 @@ protected:
 	State* pCurrentState;
 	int team;
 	int cowardnessFactor;
+	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
 public:
 	Player(int xx, int yy, double a, double h, int cow, int t, State* s);
 	virtual void show(int xx, int yy);
@@ -40,7 +41,7 @@ public:
 	int getCowardness() { return cowardnessFactor; }
 	double calcDist(Player* p) { return sqrt(pow((x - p->getX()), 2) + pow((y - p->getY()),2)); }
 	double calcPointDist(int xx, int yy) { return sqrt(pow((x - xx), 2) + pow((y - yy), 2)); }
-	Cell* checkNeighbour(int row, int col, Cell* pCurrent);
+	bool checkNeighbour(int row, int col, Cell* pCurrent);
 	void AStarTarget();
 
 };

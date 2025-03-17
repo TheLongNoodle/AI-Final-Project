@@ -87,35 +87,45 @@ void Fighter::doSomething()
 				}
 			}
 		}
-		double angle = hasClearShot(targetX, targetY);
-		if (angle != -1) // Shoot
+		if (closestDist < 2)
 		{
-			if (cooldown == 0)
-			{
-				if (rand() % 100 <= 5 && ammo>=5) //grenade
-				{
-					Grenade* g = new Grenade(y, x, team);
-					g->explode();
-					ammo = ammo - 5;
-				}
-				else //bullet
-				{
-					if (rand() % 100 <= 60 && ammo >= 5)
-					{
-						bullets.push_back(new Bullet(x, y, angle, team));
-						ammo = ammo - 1;
-					}
-					else
-					{
-						defenseMove();
-					}
-				}
-				cooldown = FCOOLDOWN;
-			}
+			if (rand() % 2 == 1)
+				defenseMove();
+			else
+				AStarTarget();
 		}
-		else // AStar move to closest enemy
+		else
 		{
-			AStarTarget();
+			double angle = hasClearShot(targetX, targetY);
+			if (angle != -1) // Shoot
+			{
+				if (cooldown == 0)
+				{
+					if (rand() % 100 <= 5 && ammo >= 5) //grenade
+					{
+						Grenade* g = new Grenade(y, x, team);
+						g->explode();
+						ammo = ammo - 5;
+					}
+					else //bullet
+					{
+						if (rand() % 100 <= 60 && ammo >= 5)
+						{
+							bullets.push_back(new Bullet(x, y, angle, team));
+							ammo = ammo - 1;
+						}
+						else
+						{
+							defenseMove();
+						}
+					}
+					cooldown = FCOOLDOWN;
+				}
+			}
+			else // AStar move to closest enemy
+			{
+				AStarTarget();
+			}
 		}
 		if (cooldown > 0)
 			cooldown--;
@@ -167,14 +177,14 @@ void Fighter::defenseMove()
 			switch (team)
 			{
 			case 1:
-				if (secMap1[y+i][x+j] < minSec && calcPointDist(x+j, y+i) <=7 && maze[y+i][x+j] != WALL)
+				if (secMap1[y+i][x+j] < minSec  && maze[y+i][x+j] != WALL)
 				{
 					targetX = x+j;
 					targetY = y+i;
 				}
 				break;
 			case 2:
-				if (secMap2[y+i][x+j] < minSec && calcPointDist(x+j, y+i) <= 7 && maze[y + i][x + j] != WALL)
+				if (secMap2[y+i][x+j] < minSec  && maze[y + i][x + j] != WALL)
 				{
 					targetX = x+j;
 					targetY = y+i;

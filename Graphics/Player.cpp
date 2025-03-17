@@ -28,7 +28,7 @@ void Player::setNeedToRestock(bool flag)
 }
 
 
-Cell* Player::checkNeighbour(int row, int col, Cell* pCurrent)
+bool Player::checkNeighbour(int row, int col, Cell* pCurrent)
 {
 	if ((row == targetY) && (col == targetX))
 	{
@@ -40,7 +40,7 @@ Cell* Player::checkNeighbour(int row, int col, Cell* pCurrent)
 		}
 		setX(pPrev->getCol());
 		setY(pPrev->getRow());
-		return nullptr;
+		return true;
 	}
 	else
 	{
@@ -49,8 +49,8 @@ Cell* Player::checkNeighbour(int row, int col, Cell* pCurrent)
 			sec = secMap1[row][col];
 		else
 			sec = secMap2[row][col];
-		Cell* pc = new Cell(row, col, targetY, targetX, pCurrent->getG() + sec + 1, pCurrent);
-		return pc;
+		pq.push(new Cell(row, col, targetY, targetX, pCurrent->getG() + sec + 1, pCurrent));
+		return false;
 	}
 }
 
@@ -58,7 +58,6 @@ void Player::AStarTarget()
 {
 	if (x == targetX && y == targetY)
 		return;
-	std::priority_queue<Cell*, std::vector<Cell*>, CompareCells> pq;
 
 	// setup tempMaze
 	int tempMaze[MSZ][MSZ] = { 0 };
@@ -85,88 +84,74 @@ void Player::AStarTarget()
 	int row, col;
 	while (runAStar)
 	{
-		if (pq.empty())
+		while (true)
 		{
-			runAStar = false;
+			if (pq.empty())
+			{
+				runAStar = false;
+				break;
+			}
+			if (tempMaze[pq.top()->getRow()][pq.top()->getCol()] == BLACK)
+			{
+				delete pq.top();
+				pq.pop();
+			}
+			else
+				break;
 		}
-		else // grays is not empty
+		if(runAStar) // grays is not empty
 		{
 			pCurrent = pq.top();
 			pq.pop(); // extract the first element from grays
 			// 1. paint pCurrent black
 			row = pCurrent->getRow();
 			col = pCurrent->getCol();
-			if (tempMaze[row][col] = START)
+			if (tempMaze[row][col] != START)
 				tempMaze[row][col] = BLACK;
 			// 2. Check all neighbors of pCurrent
 
 			// go up
 			if ((tempMaze[row + 1][col] == SPACE) || (tempMaze[row + 1][col] == TARGET))
 			{
-				pTest = checkNeighbour(row + 1, col, pCurrent);
-				if (pTest == nullptr)
+				if (checkNeighbour(row + 1, col, pCurrent))
 				{
-					while (!pq.empty()) {
-						delete pq.top();
-						pq.pop();
-					}
 					runAStar = false;
+					break;
 				}
-				else
-					pq.push(pTest);
 			}
 			// go down
 			if ((tempMaze[row - 1][col] == SPACE) || (tempMaze[row - 1][col] == TARGET))
 			{
-				pTest = checkNeighbour(row - 1, col, pCurrent);
-				if (pTest == nullptr)
+				if (checkNeighbour(row - 1, col, pCurrent))
 				{
-					while (!pq.empty()) {
-						delete pq.top();
-						pq.pop();
-					}
 					runAStar = false;
+					break;
 				}
-				else
-					pq.push(pTest);
 			}
 			// go left
 			if ((tempMaze[row][col - 1] == SPACE) || (tempMaze[row][col - 1] == TARGET))
 			{
-				pTest = checkNeighbour(row, col - 1, pCurrent);
-				if (pTest == nullptr)
+				if (checkNeighbour(row, col-1, pCurrent))
 				{
-					while (!pq.empty()) {
-						delete pq.top();
-						pq.pop();
-					}
 					runAStar = false;
+					break;
 				}
-				else
-					pq.push(pTest);
 			}
 			// go right
 			if ((tempMaze[row][col + 1] == SPACE) || (tempMaze[row][col + 1] == TARGET))
 			{
-				pTest = checkNeighbour(row, col + 1, pCurrent);
-				if (pTest == nullptr)
+				if (checkNeighbour(row, col+1, pCurrent))
 				{
-					while (!pq.empty()) {
-						delete pq.top();
-						pq.pop();
-					}
 					runAStar = false;
+					break;
 				}
-				else
-					pq.push(pTest);
 			}
 		}
 	}
 	while (!pq.empty())
 	{
-		Cell* top = pq.top();
+		delete pq.top();
 		pq.pop();
-		delete top;
 	}
 }
 
