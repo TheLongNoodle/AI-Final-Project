@@ -15,6 +15,6 @@ public:
 	void expand(int maze[MSZ][MSZ]);
 	void show();
 	int getTeam() { return team; }
-	void SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ]);
+	void SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ], bool neg);
 };
 

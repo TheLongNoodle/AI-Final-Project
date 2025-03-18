@@ -35,7 +35,7 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
-const int CTR = 15;
+const int CTR = 5;
 int counter = 0;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
@@ -248,16 +248,16 @@ void SetupDungeon()
 
 void GenerateSecurityMap()
 {
-	int numSimulations = 200;
+	int numSimulations = 100;
 	Grenade* g = nullptr;
 
 	for (int i = 0; i < numSimulations; i++)
 	{
 		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
-		g->SimulateExplosion(maze, secMap1);
+		g->SimulateExplosion(maze, secMap1, false);
 		free(g);
 		g = new Grenade(rand() % MSZ, rand() % MSZ, 0);
-		g->SimulateExplosion(maze, secMap2);
+		g->SimulateExplosion(maze, secMap2, false);
 		free(g);
 	}
 	for (Player* p : players)
@@ -266,7 +266,10 @@ void GenerateSecurityMap()
 			for (int i = 0; i < numSimulations; i++)
 			{
 				g = new Grenade(p->getY(), p->getX(), 0);
-				g->SimulateExplosion(maze, secMap2);
+				g->SimulateExplosion(maze, secMap2, false);
+				free(g);
+				g = new Grenade(p->getY(), p->getX(), 0);
+				g->SimulateExplosion(maze, secMap1, true);
 				free(g);
 			}
 		else
@@ -274,7 +277,10 @@ void GenerateSecurityMap()
 			for (int i = 0; i < numSimulations; i++)
 			{
 				g = new Grenade(p->getY(), p->getX(), 0);
-				g->SimulateExplosion(maze, secMap1);
+				g->SimulateExplosion(maze, secMap1, false);
+				free(g);
+				g = new Grenade(p->getY(), p->getX(), 0);
+				g->SimulateExplosion(maze, secMap2, true);
 				free(g);
 			}
 		}
@@ -285,7 +291,7 @@ void GenerateSecurityMap()
 			for (int i = 0; i < numSimulations; i++)
 			{
 				g = new Grenade(b->getY(), b->getX(), 0);
-				g->SimulateExplosion(maze, secMap2);
+				g->SimulateExplosion(maze, secMap2, false);
 				free(g);
 			}
 		else
@@ -293,7 +299,7 @@ void GenerateSecurityMap()
 			for (int i = 0; i < numSimulations; i++)
 			{
 				g = new Grenade(b->getY(), b->getX(), 0);
-				g->SimulateExplosion(maze, secMap1);
+				g->SimulateExplosion(maze, secMap1, false);
 				free(g);
 			}
 		}
@@ -306,7 +312,7 @@ void init()
 	glOrtho(0, MSZ, 0, MSZ, -1, 1); // set the coordinates system
 
 	srand(time(0));
-
+	GenerateSecurityMap();
 	SetupDungeon();
 }
 

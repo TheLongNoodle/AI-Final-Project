@@ -1,5 +1,4 @@
-#include "
-.h"
+#include "Bullet.h"
 #include <math.h>
 #include <cmath>
 #include "glut.h"
@@ -60,12 +59,15 @@ void Bullet::show()
 	glEnd();
 }
 
-void Bullet::SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ])
+void Bullet::SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ], bool neg)
 {
 	isMoving = true;
 	while (isMoving)
 	{
-		sm[(int)y][(int)x] += SECURITY_FACTOR;
+		if (neg)
+			sm[(int)y][(int)x] += SECURITY_FACTOR;
+		else
+			sm[(int)y][(int)x] += SECURITY_FACTOR;
 		move(maze);
 	}
 }

@@ -48,13 +48,13 @@ void Grenade::show()
 
 }
 
-void Grenade::SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ])
+void Grenade::SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ], bool neg)
 {
 	int i;
 
 	for (i = 0;i < NUM_BULLETS;i++)
 	{
-		gBullets[i]->SimulateExplosion(maze,sm);
+		gBullets[i]->SimulateExplosion(maze,sm, neg);
 		free(gBullets[i]);
 	}
 

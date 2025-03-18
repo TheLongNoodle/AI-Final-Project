@@ -8,7 +8,7 @@ const int START = 2;
 const int TARGET = 3;
 const int BLACK = 4;
 const double PI = 3.14;
-const double SECURITY_FACTOR = 0.0001;
+const double SECURITY_FACTOR = 0.001;
 const int VIEWDISTANCE = 25;
 
 extern int maze[MSZ][MSZ];

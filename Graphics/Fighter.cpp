@@ -31,7 +31,7 @@ void Fighter::show(int xx, int yy)
 	glEnd();
 
 	// Draw HUD
-	
+
 	if (health > 0)
 	{
 		glColor3f(0, 1, 0);
@@ -89,12 +89,35 @@ void Fighter::doSomething()
 				}
 			}
 		}
-		if (closestDist < 2)
+		if (closestDist <= 5)
 		{
-			if (rand() % 2 == 1)
-				defenseMove();
-			else
+			if (rand() % 100 <= 75)
+			{
+				int xx = 0;
+				int yy = 0;
+				while (maze[yy][xx] != SPACE)
+				{
+					xx = rand() % MSZ;
+					yy = rand() % MSZ;
+				}
+				setTarget(rand() % MSZ, rand() % MSZ);
 				AStarTarget();
+				return;
+			}
+		}
+		// Corridor check
+		int walls = 0;
+		if (maze[y][x + 1] == WALL)
+			walls++;
+		if (maze[y][x - 1] == WALL)
+			walls++;
+		if (maze[y - 1][x] == WALL)
+			walls++;
+		if (maze[y + 1][x] == WALL)
+			walls++;
+		if (walls >= 2)
+		{
+			AStarTarget();
 		}
 		else
 		{
@@ -128,9 +151,9 @@ void Fighter::doSomething()
 			{
 				AStarTarget();
 			}
+			if (cooldown > 0)
+				cooldown--;
 		}
-		if (cooldown > 0)
-			cooldown--;
 	}
 	else // Defence mode
 	{
@@ -140,6 +163,7 @@ void Fighter::doSomething()
 
 double Fighter::hasClearShot(int xx, int yy) //returns the angle if player has clear shot to position, -1 otherwise (IN RADIANS)
 {
+
 	int x1 = x;
 	int y1 = y;
 	// Bresenham's Line Algorithm to check for walls
@@ -179,17 +203,17 @@ void Fighter::defenseMove()
 			switch (team)
 			{
 			case 1:
-				if (secMap1[y+i][x+j] < minSec  && maze[y+i][x+j] != WALL)
+				if (secMap1[y + i][x + j] < minSec && maze[y + i][x + j] != WALL)
 				{
-					targetX = x+j;
-					targetY = y+i;
+					targetX = x + j;
+					targetY = y + i;
 				}
 				break;
 			case 2:
-				if (secMap2[y+i][x+j] < minSec  && maze[y + i][x + j] != WALL)
+				if (secMap2[y + i][x + j] < minSec && maze[y + i][x + j] != WALL)
 				{
-					targetX = x+j;
-					targetY = y+i;
+					targetX = x + j;
+					targetY = y + i;
 				}
 				break;
 			}

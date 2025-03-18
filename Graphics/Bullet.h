@@ -22,7 +22,7 @@ public:
 	int getY() { return y; }
 	int getTeam() { return team; }
 	double calcDist(Player* p) { return sqrt(pow((x - p->getX()), 2) + pow((y - p->getY()), 2)); }
-	void SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ]);
+	void SimulateExplosion(int maze[MSZ][MSZ], double sm[MSZ][MSZ], bool neg);
 
 };
 
