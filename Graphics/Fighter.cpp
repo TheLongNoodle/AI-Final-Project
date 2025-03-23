@@ -89,7 +89,7 @@ void Fighter::doSomething()
 				}
 			}
 		}
-		if (closestDist <= 5)
+		if (closestDist <= 3)
 		{
 			if (rand() % 100 <= 75)
 			{
@@ -203,14 +203,14 @@ void Fighter::defenseMove()
 			switch (team)
 			{
 			case 1:
-				if (secMap1[y + i][x + j] < minSec && maze[y + i][x + j] != WALL)
+				if (secMap1[y + i][x + j] < minSec && maze[y + i][x + j] != WALL && inBound(x+j, y+i))
 				{
 					targetX = x + j;
 					targetY = y + i;
 				}
 				break;
 			case 2:
-				if (secMap2[y + i][x + j] < minSec && maze[y + i][x + j] != WALL)
+				if (secMap2[y + i][x + j] < minSec && maze[y + i][x + j] != WALL && inBound(x + j, y + i))
 				{
 					targetX = x + j;
 					targetY = y + i;
@@ -218,4 +218,9 @@ void Fighter::defenseMove()
 				break;
 			}
 	AStarTarget();
+}
+
+bool inBound(int x, int y)
+{
+	return ((abs(y) > 0) && (abs(y) < MSZ) && (abs(x) > 0) && (abs(x) < MSZ));
 }

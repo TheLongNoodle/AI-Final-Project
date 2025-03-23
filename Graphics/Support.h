@@ -5,8 +5,8 @@
 
 const double SSPEED = 0.0001;
 const double SMAX_HEALTH = 100;
-const double SMAX_AID = 2;
-const double SMAX_AMMO = 2;
+const double SMAX_AID = 3;
+const double SMAX_AMMO = 3;
 const double SMIN_AMMO = 0;
 
 class Support : public Player

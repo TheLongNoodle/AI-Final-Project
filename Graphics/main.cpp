@@ -24,7 +24,7 @@ using namespace std;
 const int WIDTH = 1200;
 const int HEIGHT = 1200;
 
-const int NUM_ROOMS = 8;
+const int NUM_ROOMS = 10;
 
 const double WALL_COST = 5;
 const double SPACE_COST = 1;
@@ -35,7 +35,7 @@ vector<Player*> players;
 vector<Bullet*> bullets;
 vector<Grenade*> grenades;
 
-const int CTR = 5;
+const int CTR = 2;
 int counter = 0;
 int winCondition = 0;
 int maze[MSZ][MSZ] = { 0 };
@@ -248,7 +248,7 @@ void SetupDungeon()
 
 void GenerateSecurityMap()
 {
-	int numSimulations = 100;
+	int numSimulations = 25;
 	Grenade* g = nullptr;
 
 	for (int i = 0; i < numSimulations; i++)
